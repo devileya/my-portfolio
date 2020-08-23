@@ -30,7 +30,7 @@ export const projectsData = [
     id: nanoid(),
     img: 'sehatq-android.png',
     title: 'SehatQ App (Android)',
-    info: `I develop sehatQ android app with sehatQ android team, this is health application that has many feature like 
+    info: `I develop sehatQ android app with sehatQ android team, sehatQ app is health application that has many feature like 
     telemedicine (chat and video call), buy medicine, book a doctor, check up routine, health record and many more`,
     info2: `Technology: Android, Kotlin, MVVM, Koin, Coroutine, Retrofit, Firebase, Google Maps, Sendbird`,
     url: 'https://play.google.com/store/apps/details?id=com.she.sehatq',
