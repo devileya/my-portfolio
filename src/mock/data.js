@@ -21,7 +21,7 @@ export const aboutData = {
   paragraphOne: `I am Senior Software Engineer at sehatQ (Sinarmas Group Company) that enthusiast about an IT like mobile development, web development (front-end and back-end), data science and scripting`,
   paragraphTwo: `I am passionate about building scalable software, creating effective solutions, and learning every day to grow professionally in the IT field.`,
   paragraphThree: `Click button 'resume' below to see my resume or scroll down to see my projects`,
-  resume: 'https://drive.google.com/file/d/1vAaQWq18fncFu534SeIMh_G4LYMR-IWz/view?usp=sharing', // if no resume, the button will not show up
+  resume: 'https://drive.google.com/file/d/1QDA8Bkja1yiMlATpOJdfkTHLmOtSU4bK/view?usp=sharing', // if no resume, the button will not show up
 };
 
 // PROJECTS DATA
@@ -79,9 +79,10 @@ export const projectsData = [
   {
     id: nanoid(),
     img: 'mybiznet-app.PNG',
-    title: 'MyBiznet (Android)',
+    title: 'MyBiznet (Android and IOS)',
     info: `I developed this app with some Biznet vendor, this app for Biznet's customer`,
-    info2: 'Technology: Android, Kotlin, MVP, Dagger, RXJava, Retrofit, Firebase, Google Maps',
+    info2:
+      'Technology: Android, Kotlin, MVP, Dagger, RXJava, Retrofit, Firebase, Google Maps, IOS, Swift',
     url: 'https://play.google.com/store/apps/details?id=biznet.id.android',
     repo: '', // if no repo, the button will not show up
   },
@@ -89,7 +90,7 @@ export const projectsData = [
     id: nanoid(),
     img: 'gabut-android.png',
     title: 'Gabut (Android)',
-    info: `This app is communication app like whatsApp or telegram that has many feature like timeline, chat group or personally`,
+    info: `This app is communication app like whatsApp or telegram that has many feature like timeline and chat`,
     info2: `Technology: Android, Java, MVC, Dagger, RXJava, Retrofit, Firebase, PHP, Yii`,
     url: 'https://play.google.com/store/apps/details?id=lagi.gabut.inc',
     repo: '', // if no repo, the button will not show up
