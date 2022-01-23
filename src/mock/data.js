@@ -11,21 +11,40 @@ export const headData = {
 export const heroData = {
   title: '',
   name: 'Arif Fadly Siregar',
-  subtitle: `I am an IT enthusiast`,
+  subtitle: `I am an Software Engineer`,
   cta: '',
 };
 
 // ABOUT DATA
 export const aboutData = {
   img: 'photo.png',
-  paragraphOne: `I am Senior Software Engineer at sehatQ (Sinarmas Group Company) that enthusiast about an IT like mobile development, web development (front-end and back-end), data science and scripting`,
+  paragraphOne: `I am Software Engineer at DANA Indonesia that enthusiast about Mobile Development, Web Development (front-end and back-end), Data Science/Analytics and Scripting`,
   paragraphTwo: `I am passionate about building scalable software, creating effective solutions, and learning every day to grow professionally in the IT field.`,
   paragraphThree: `Click button 'resume' below to see my resume or scroll down to see my projects`,
-  resume: 'https://drive.google.com/file/d/1QDA8Bkja1yiMlATpOJdfkTHLmOtSU4bK/view?usp=sharing', // if no resume, the button will not show up
+  resume: 'https://drive.google.com/file/d/1IOnMudb-vahTIecMlFVObVczXu2-UKzE/view?usp=sharing', // if no resume, the button will not show up
 };
 
 // PROJECTS DATA
 export const projectsData = [
+  {
+    id: nanoid(),
+    img: 'peta-mobile.png',
+    title: 'PETA REG-SUMKAL (Android, iOS, Web)',
+    info: `I develop PETA REG-SUMKAL with my own team using kotlin for android and swift for ios. This app for maintain and give report about PLN assets in Sumatera-Kalimantan Regional.
+     Features in this app includes authentication, track current location, analytics (Charts), notification and many more`,
+    info2: `Technology: Android, iOS, Kotlin, Swift, MVVM, Koin, Coroutine, Retrofit, Alamofire, Firebase, Google Maps, Charts`,
+    url: 'https://play.google.com/store/apps/details?id=com.pln.peta',
+    repo: '', // if no repo, the button will not show up
+  },
+  {
+    id: nanoid(),
+    img: 'pdkb-mobile.jpg',
+    title: 'PDKB SUMATERA (Android, iOS, Web)',
+    info: `I develop PDKB SUMATERA with my own team using flutter. This is inventory app that handle incoming/outcoming item with scan QR-CODE for internal PLN Sumatera`,
+    info2: `Technology: Hybrid (Android, iOS), Flutter, Dart, BLOC, QR-Code Scanner, Firebase`,
+    url: 'https://play.google.com/store/apps/details?id=com.pln.pdkb',
+    repo: '', // if no repo, the button will not show up
+  },
   {
     id: nanoid(),
     img: 'sehatq-android.png',
