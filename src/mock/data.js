@@ -11,27 +11,54 @@ export const headData = {
 export const heroData = {
   title: '',
   name: 'Arif Fadly Siregar',
-  subtitle: `I am an Software Engineer`,
+  subtitle: `Software Engineer and Tech Geek`,
   cta: '',
 };
 
 // ABOUT DATA
 export const aboutData = {
   img: 'photo.png',
-  paragraphOne: `I am Software Engineer at DANA Indonesia that enthusiast about Mobile Development, Web Development (front-end and back-end), Data Science/Analytics and Scripting`,
+  paragraphOne: `I am Software Engineer that enthusiast about Mobile Development, Web Development (front-end and back-end), Data Science/Analytics and Scripting`,
   paragraphTwo: `I am passionate about building scalable software, creating effective solutions, and learning every day to grow professionally in the IT field.`,
   paragraphThree: `Click button 'resume' below to see my resume or scroll down to see my projects`,
-  resume: 'https://drive.google.com/file/d/1IOnMudb-vahTIecMlFVObVczXu2-UKzE/view?usp=sharing', // if no resume, the button will not show up
+  resume: 'https://drive.google.com/file/d/12QaCGziCVv0IDAbqxGWN8Ff2Ja2_N_7J/view?usp=sharing', // if no resume, the button will not show up
 };
 
 // PROJECTS DATA
 export const projectsData = [
   {
     id: nanoid(),
+    img: 'appen-mobile.jpg',
+    title: 'Appen (Android)',
+    info: `I support and maintenance the app and also create audio and video collection prompt for this app`,
+    info2: `Technology: Android, iOS, React Native, Axios, Code push, Azure, NPM`,
+    url: 'https://play.google.com/store/apps/details?id=id.dana',
+    repo: '', // if no repo, the button will not show up
+  },
+  {
+    id: nanoid(),
+    img: 'geolancer-mobile.jpg',
+    title: 'Geolancer (Android)',
+    info: `I develop many features in Geolancer app such as Address Standardization, Image Blurry Detection, MBP, Audio Video Collection and I also check the security of apps by reverse-engineering on that using JADX and GHIDRA`,
+    info2: `Technology: Android, Kotlin, MVVM, HILT, Play Integrity, Mixpanel, Twilio, Firebase, JADX, GHIDRA`,
+    url: 'https://play.google.com/store/apps/details?id=id.dana',
+    repo: '', // if no repo, the button will not show up
+  },
+  {
+    id: nanoid(),
+    img: 'dana-mobile.jpg',
+    title: 'DANA (Android)',
+    info: `I develop many features in DANA app such as DANA Viz (able to pay using face authentication), Contact Injection, Wallet, support and maintenance emoney integration using NFC`,
+    info2: `Technology: Android, Kotlin, Java, MVP, Firebase, Split.io, Branch.io, Alipay, DexGuard, Modularization, Dagger, Epoxy`,
+    url: 'https://play.google.com/store/apps/details?id=id.dana',
+    repo: '', // if no repo, the button will not show up
+  },
+  {
+    id: nanoid(),
     img: 'peta-mobile.png',
     title: 'PETA REG-SUMKAL (Android, iOS, Web)',
     info: `I develop PETA REG-SUMKAL with my own team using kotlin for android and swift for ios. This app for maintain and give report about PLN assets in Sumatera-Kalimantan Regional.
-     Features in this app includes authentication, track current location, analytics (Charts), notification and many more`,
+    Features in this app includes authentication, track current location, analytics (Charts), notification and many more`,
     info2: `Technology: Android, iOS, Kotlin, Swift, MVVM, Koin, Coroutine, Retrofit, Alamofire, Firebase, Google Maps, Charts`,
     url: 'https://play.google.com/store/apps/details?id=com.pln.peta',
     repo: '', // if no repo, the button will not show up
