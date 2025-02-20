@@ -9,46 +9,71 @@ export const headData = {
 
 // HERO DATA
 export const heroData = {
-  title: '',
+  title: 'Senior Mobile Engineer | Mobile Security & AI Integration',
   name: 'Arif Fadly Siregar',
-  subtitle: `Software Engineer and Tech Geek`,
+  subtitle: `Software and mobile engineer with 7+ years experience`,
   cta: '',
 };
 
 // ABOUT DATA
 export const aboutData = {
   img: 'photo.png',
-  paragraphOne: `I am Software Engineer that enthusiast about Mobile Development, Web Development (front-end and back-end), Data Science/Analytics and Scripting`,
+  paragraphOne: `I am Software Engineer that enthusiast about Mobile Development, Web Development (front-end and back-end), Security and AI integration`,
   paragraphTwo: `I am passionate about building scalable software, creating effective solutions, and learning every day to grow professionally in the IT field.`,
   paragraphThree: `Click button 'resume' below to see my resume or scroll down to see my projects`,
-  resume: 'https://drive.google.com/file/d/12QaCGziCVv0IDAbqxGWN8Ff2Ja2_N_7J/view?usp=sharing', // if no resume, the button will not show up
+  resume: 'https://drive.google.com/file/d/1I-fvXXETTPab0jZpUM_fqytIYVrj7TAr/view?usp=share_link', // if no resume, the button will not show up
 };
 
 // PROJECTS DATA
 export const projectsData = [
   {
     id: nanoid(),
+    img: 'eureka.png',
+    title: 'Hi Eureka (Android and iOS)',
+    info: `This is the interactive AI app for kids that has many feature on it, like talk with eureka, create story, quiz, levelling and etc that supports all of the languages
+    \n I develop all of the feature (text-to-speech, speech-to-text, image generated, etc) on Android and also some on ios code`,
+    info2: `Technology: Android, iOS, Kotlin, Swift, MVVM, Koin, Coroutine, Retrofit, Alamofire, Firebase, Lottie, Revenuecat, Sentry, openAI, Dall-e`,
+    url: 'https://play.google.com/store/apps/details?id=com.mediatropy.eureka',
+    url2: 'https://apps.apple.com/id/app/hi-eureka-kids-ai-learning/id1671082808',
+    repo: '', // if no repo, the button will not show up
+  },
+  {
+    id: nanoid(),
+    img: 'stellkey.png',
+    title: 'Stellkey (Android)',
+    info: `This is the build habit app for kids like give tasks and rewards to kids and able to customise the stell's avatar and our users mostly in france
+    \n I develop all of the feature on Android side`,
+    info2: `Technology: Android, iOS, Kotlin, MVVM, Koin, Coroutine, Retrofit, Firebase, Lottie, Revenuecat, Sentry`,
+    url: 'https://play.google.com/store/apps/details?id=com.stellkey.android',
+    repo: '', // if no repo, the button will not show up
+  },
+  {
+    id: nanoid(),
     img: 'appen-mobile.jpg',
     title: 'Appen (Android)',
-    info: `I support and maintenance the app and also create audio and video collection prompt for this app`,
+    info: `This app to collect many things of data including the audio and video
+    \n I develop audio and video collection feature prompt for this app`,
     info2: `Technology: Android, iOS, React Native, Axios, Code push, Azure, NPM`,
-    url: 'https://play.google.com/store/apps/details?id=id.dana',
+    url: 'https://play.google.com/store/apps/details?id=com.appen.mobile.global',
     repo: '', // if no repo, the button will not show up
   },
   {
     id: nanoid(),
     img: 'geolancer-mobile.jpg',
     title: 'Geolancer (Android)',
-    info: `I develop many features in Geolancer app such as Address Standardization, Image Blurry Detection, MBP, Audio Video Collection and I also check the security of apps by reverse-engineering on that using JADX and GHIDRA`,
+    info: `This is the app to collect POI(location data) and the user will get reward in our own crypto coin
+    \nI develop many features in Geolancer app such as Address Standardization, Image Blurry Detection using tensorflow, MBP, Audio Video Collection.
+    \nI also check the security of apps by reverse-engineering on that using JADX and GHIDRA and implement SSL Pinning to prevent MOTM`,
     info2: `Technology: Android, Kotlin, MVVM, HILT, Play Integrity, Mixpanel, Twilio, Firebase, JADX, GHIDRA`,
-    url: 'https://play.google.com/store/apps/details?id=id.dana',
+    url: 'https://play.google.com/store/apps/details?id=com.sheelafoam.quadrant',
     repo: '', // if no repo, the button will not show up
   },
   {
     id: nanoid(),
     img: 'dana-mobile.jpg',
     title: 'DANA (Android)',
-    info: `I develop many features in DANA app such as DANA Viz (able to pay using face authentication), Contact Injection, Wallet, support and maintenance emoney integration using NFC`,
+    info: `This is one of the largest finance/wallet app in Indonesia
+    \n I develop many features in DANA app such as DANA Viz (able to pay using face authentication), Contact Injection, Wallet, support and maintenance emoney integration using NFC`,
     info2: `Technology: Android, Kotlin, Java, MVP, Firebase, Split.io, Branch.io, Alipay, DexGuard, Modularization, Dagger, Epoxy`,
     url: 'https://play.google.com/store/apps/details?id=id.dana',
     repo: '', // if no repo, the button will not show up
@@ -57,7 +82,8 @@ export const projectsData = [
     id: nanoid(),
     img: 'peta-mobile.png',
     title: 'PETA REG-SUMKAL (Android, iOS, Web)',
-    info: `I develop PETA REG-SUMKAL with my own team using kotlin for android and swift for ios. This app for maintain and give report about PLN assets in Sumatera-Kalimantan Regional.
+    info: `This is the app to get early warning system to the biggest Indonesia Electrical Company
+    \nI develop PETA REG-SUMKAL with my own team using kotlin for android and swift for ios. This app for maintain and give report about PLN assets in Sumatera-Kalimantan Regional.
     Features in this app includes authentication, track current location, analytics (Charts), notification and many more`,
     info2: `Technology: Android, iOS, Kotlin, Swift, MVVM, Koin, Coroutine, Retrofit, Alamofire, Firebase, Google Maps, Charts`,
     url: 'https://play.google.com/store/apps/details?id=com.pln.peta',
@@ -66,8 +92,9 @@ export const projectsData = [
   {
     id: nanoid(),
     img: 'pdkb-mobile.jpg',
-    title: 'PDKB SUMATERA (Android, iOS, Web)',
-    info: `I develop PDKB SUMATERA with my own team using flutter. This is inventory app that handle incoming/outcoming item with scan QR-CODE for internal PLN Sumatera`,
+    title: 'PDKB SUMATERA (Flutter, iOS, Android, Web)',
+    info: `This is the inventory management system app
+     \nI develop PDKB SUMATERA with my own team using flutter. This is inventory app that handle incoming/outcoming item with scan QR-CODE for internal PLN Sumatera`,
     info2: `Technology: Hybrid (Android, iOS), Flutter, Dart, BLOC, QR-Code Scanner, Firebase`,
     url: 'https://play.google.com/store/apps/details?id=com.pln.pdkb',
     repo: '', // if no repo, the button will not show up
