@@ -9,7 +9,7 @@ export const headData = {
 
 // HERO DATA
 export const heroData = {
-  title: 'Senior Mobile Engineer | Mobile Security & AI Integration',
+  title: '',
   name: 'Arif Fadly Siregar',
   subtitle: `Software and mobile engineer with 7+ years experience`,
   cta: '',
@@ -17,10 +17,10 @@ export const heroData = {
 
 // ABOUT DATA
 export const aboutData = {
-  img: 'photo.png',
-  paragraphOne: `I am Software Engineer that enthusiast about Mobile Development, Web Development (front-end and back-end), Security and AI integration`,
-  paragraphTwo: `I am passionate about building scalable software, creating effective solutions, and learning every day to grow professionally in the IT field.`,
-  paragraphThree: `Click button 'resume' below to see my resume or scroll down to see my projects`,
+  img: 'image.webp',
+  paragraphOne: `I am a Software Engineer with a strong passion for Mobile Development, Web Development (Front-end & Back-end), Security, and AI Integration.`,
+  paragraphTwo: `I thrive on building scalable software, developing efficient solutions, and continuously learning to grow in the ever-evolving IT field.`,
+  paragraphThree: `Click the 'resume' button below to view my resume or scroll down to explore my projects`,
   resume: 'https://drive.google.com/file/d/1I-fvXXETTPab0jZpUM_fqytIYVrj7TAr/view?usp=share_link', // if no resume, the button will not show up
 };
 

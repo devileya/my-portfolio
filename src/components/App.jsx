@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import Hero from './Hero/Hero';
-import About from './About/About';
-import Projects from './Projects/Projects';
-import Contact from './Contact/Contact';
-import Footer from './Footer/Footer';
+import Hero from './Hero/Hero.jsx';
+import About from './About/About.jsx';
+import Portfolio from './Portfolio/Portfolio.jsx';
+import Contact from './Contact/Contact.jsx';
+import Footer from './Footer/Footer.jsx';
 
 import { PortfolioProvider } from '../context/context';
 
 import { heroData, aboutData, projectsData, contactData, footerData } from '../mock/data';
 
-function App() {
+const App = () => {
   const [hero, setHero] = useState({});
   const [about, setAbout] = useState({});
   const [projects, setProjects] = useState([]);
@@ -28,7 +28,7 @@ function App() {
     <PortfolioProvider value={{ hero, about, projects, contact, footer }}>
       <Hero />
       <About />
-      <Projects />
+      <Portfolio />
       <Contact />
       <Footer />
     </PortfolioProvider>
