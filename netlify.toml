@@ -1,5 +1,5 @@
 [build]
-  command = "rm -rf .cache node_modules package-lock.json yaml.lock && pnpm install --frozen-lockfile && gatsby build"
+  command = "rm -rf .cache node_modules package-lock.json yaml.lock && pnpm install && gatsby build"
   publish = "public"
 
 [build.environment]
