@@ -1,8 +1,6 @@
 [build]
-  command = "pnpm install && gatsby build"
+  command = "npm install && gatsby build"
   publish = "public"
 
 [build.environment]
-  NPM_FLAGS = "--version"  # Prevents Netlify from installing pnpm
-  NETLIFY_USE_PNPM = "true"
   SHARP_IGNORE_GLOBAL_LIBVIPS = "1"
