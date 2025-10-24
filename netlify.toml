@@ -1,5 +1,5 @@
 [build]
-  command = "rm -rf .cache node_modules package-lock.json yarn.lock pnpm-lock.yaml && pnpm install && gatsby build"
+  command = "rm -rf .cache node_modules package-lock.json yarn.lock pnpm-lock.yaml && pnpm install --platform=linux --arch=x64 sharp && gatsby build"
   publish = "public"
 
 [build.environment]
