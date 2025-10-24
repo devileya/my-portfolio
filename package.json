@@ -15,8 +15,7 @@
   },
   "overrides": {
     "ajv": "6.12.6",
-    "ajv-keywords": "3.5.2",
-    "sharp": "0.33.5"
+    "ajv-keywords": "3.5.2"
   },
   "dependencies": {
     "bootstrap": "5.0.0",
@@ -41,8 +40,7 @@
     "react-parallax-tilt": "^1.7.284",
     "react-reveal": "^1.2.2",
     "react-scroll": "^1.9.3",
-    "sass": "^1.85.0",
-    "sharp": "^0.33.5"
+    "sass": "^1.85.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
