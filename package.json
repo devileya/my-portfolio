@@ -16,8 +16,7 @@
   "pnpm": {
     "overrides": {
       "ajv": "6.12.6",
-      "ajv-keywords": "3.5.2",
-      "sharp": "^0.33.5"
+      "ajv-keywords": "3.5.2"
     }
   },
   "dependencies": {
