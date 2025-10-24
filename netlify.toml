@@ -1,7 +1,8 @@
 [build]
-  command = "rm -rf .cache node_modules package-lock.json yaml.lock && pnpm install && gatsby build"
+  command = "rm -rf .cache node_modules package-lock.json yarn.lock && pnpm install --platform=linux --arch=x64 sharp && pnpm install && gatsby build"
   publish = "public"
 
 [build.environment]
   NPM_FLAGS = "--version"  # Prevents Netlify from installing npm
   NETLIFY_USE_PNPM = "true"
+  SHARP_IGNORE_GLOBAL_LIBVIPS = "1"
