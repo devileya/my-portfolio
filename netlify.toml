@@ -1,8 +1,3 @@
 [build]
-  command = "export npm_config_ignore_scripts=false && rm -rf .cache node_modules && pnpm install --frozen-lockfile=false && pnpm rebuild sharp --verbose && pnpm exec gatsby build"
+  command = "rm -rf .cache node_modules && npm ci --foreground-scripts && npm rebuild sharp --platform=linux --arch=x64 --foreground-scripts --verbose && npx gatsby build"
   publish = "public"
-
-[build.environment]
-  NPM_FLAGS = "--version"  # Prevents Netlify from installing pnpm
-  NETLIFY_USE_PNPM = "true"
-  SHARP_IGNORE_GLOBAL_LIBVIPS = "1"
