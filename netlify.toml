@@ -1,8 +1,10 @@
 [build]
   command = """
+  # hard reset everything, including Netlify's cached lockfile
   rm -rf .cache node_modules package-lock.json yarn.lock pnpm-lock.yaml \
     && pnpm install --frozen-lockfile=false \
-    && pnpm rebuild sharp \
+    # force sharp to rebuild for linux-x64 in this environment
+    && npm_config_platform=linux npm_config_arch=x64 pnpm rebuild sharp --verbose \
     && gatsby build
   """
   publish = "public"
