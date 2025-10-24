@@ -1,6 +1,8 @@
 [build]
-  command = "npm install --legacy-peer-deps && gatsby build"
+  command = "rm -rf .cache node_modules package-lock.json yarn.lock pnpm-lock.yaml && pnpm install && gatsby build"
   publish = "public"
 
 [build.environment]
+  NPM_FLAGS = "--version"  # Prevents Netlify from installing pnpm
+  NETLIFY_USE_PNPM = "true"
   SHARP_IGNORE_GLOBAL_LIBVIPS = "1"
