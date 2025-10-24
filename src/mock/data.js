@@ -11,24 +11,33 @@ export const headData = {
 export const heroData = {
   title: '',
   name: 'Arif Fadly Siregar',
-  subtitle: `Software and mobile engineer with 7+ years experience`,
+  subtitle: `Software and AI engineer with 7+ years experience`,
   cta: '',
 };
 
 // ABOUT DATA
 export const aboutData = {
   img: 'image.webp',
-  paragraphOne: `I am a Software Engineer with a strong passion for Mobile Development, Web Development (Front-end & Back-end), Security, and AI Integration.`,
+  paragraphOne: `I am a AI Software Engineer with a strong passion for Machine Learning, AI Integration, Mobile Development, Web Development (Front-end & Back-end), and Security`,
   paragraphTwo: `I thrive on building scalable software, developing efficient solutions, and continuously learning to grow in the ever-evolving IT field.`,
   paragraphThree: `Click the 'resume' button below to view my resume or scroll down to explore my projects`,
-  resume: 'https://drive.google.com/file/d/1I-fvXXETTPab0jZpUM_fqytIYVrj7TAr/view?usp=share_link', // if no resume, the button will not show up
+  resume: 'https://drive.google.com/file/d/1w90ulvi6TeoZOQcVV3dhV_y5Pf-ZRbMg/view?usp=sharing', // if no resume, the button will not show up
 };
 
 // PROJECTS DATA
 export const projectsData = [
   {
     id: nanoid(),
-    img: 'eureka.png',
+    img: 'interopera.webp',
+    title: 'Interopera (AI Integration)',
+    info: `This is the AI Management Infrastructure for Operational Resilience and Real-Time Decisions`,
+    info2: `Technology: Python, LLM, OCR, FastAPI, Docker, Kubernetes, Redis, RabbitMQ, Grafana, PostgreSQL, NextJS`,
+    url: 'https://www.interopera.co',
+    repo: '', // if no repo, the button will not show up
+  },
+  {
+    id: nanoid(),
+    img: 'eureka.webp',
     title: 'Hi Eureka (Android and iOS)',
     info: `This is the interactive AI app for kids that has many feature on it, like talk with eureka, create story, quiz, levelling and etc that supports all of the languages
     \n I develop all of the feature (text-to-speech, speech-to-text, image generated, etc) on Android and also some on ios code`,
@@ -39,8 +48,8 @@ export const projectsData = [
   },
   {
     id: nanoid(),
-    img: 'stellkey.png',
-    title: 'Stellkey (Android)',
+    img: 'stellkey.webp',
+    title: 'Stellkey (Android and iOS)',
     info: `This is the build habit app for kids like give tasks and rewards to kids and able to customise the stell's avatar and our users mostly in france
     \n I develop all of the feature on Android side`,
     info2: `Technology: Android, iOS, Kotlin, MVVM, Koin, Coroutine, Retrofit, Firebase, Lottie, Revenuecat, Sentry`,
@@ -49,7 +58,7 @@ export const projectsData = [
   },
   {
     id: nanoid(),
-    img: 'appen-mobile.jpg',
+    img: 'appen-mobile.webp',
     title: 'Appen (Android)',
     info: `This app to collect many things of data including the audio and video
     \n I develop audio and video collection feature prompt for this app`,
@@ -151,7 +160,7 @@ export const projectsData = [
   },
   {
     id: nanoid(),
-    img: 'mybiznet-app.PNG',
+    img: 'mybiznet-app.webp',
     title: 'MyBiznet (Android and IOS)',
     info: `I developed this app with some Biznet vendor, this app for Biznet's customer`,
     info2:
@@ -179,7 +188,7 @@ export const projectsData = [
   },
   {
     id: nanoid(),
-    img: 'cabana-web.png',
+    img: 'cabana-web.webp',
     title: 'Cabana Surf and Stay (Web)',
     info: `This web is about cabana that has many feature like reserve hotel, blog, weather and swell information and show events in cabana`,
     info2: `Technology: CodeIgniter, PHP, MySQL, JQuery, HTML, CSS`,
@@ -188,7 +197,7 @@ export const projectsData = [
   },
   {
     id: nanoid(),
-    img: 'danalaut-web.png',
+    img: 'danalaut-web.webp',
     title: 'Danalaut (Web)',
     info: `I developed this web with Seva's team, this web is about peer-to-peer lending for Indonesia Maritim Economic`,
     info2: `Technology: Angular 4, Typescript, Symfony, PHP, PostgreSQL, JWT Auth, REST API, HTML, CSS`,
@@ -197,7 +206,7 @@ export const projectsData = [
   },
   {
     id: nanoid(),
-    img: 'virallo-web.png',
+    img: 'virallo-web.webp',
     title: 'Virallo (Web)',
     info: `I developed this web with Seva's team, this web is about brand campaign and endorse management`,
     info2: `Technology: Angular 4, Typescript, Laravel, PHP, PostgreSQL, JWT Auth, REST API, HTML, CSS`,
