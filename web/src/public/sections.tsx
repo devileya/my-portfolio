@@ -55,7 +55,8 @@ function SectionHead({ id, label, title, children }: { id: string; label: string
 // ── about: a model card ───────────────────────────────────────────────────────
 
 export function ModelCard({ profile }: { profile: Profile }) {
-  const slug = profile.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+  const slugify = (v: string) => v.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  const slug = slugify(profile.name);
   const paragraphs = profile.bio.split(/\n\s*\n/).filter((p) => p.trim());
   return (
     <section className="section reveal" id="about" aria-labelledby="about-label">
@@ -85,7 +86,7 @@ export function ModelCard({ profile }: { profile: Profile }) {
         <article className="mcard">
           <header className="mcard__head">
             <p className="mcard__repo mono">
-              <span className="mcard__owner">{slug}</span> / {profile.role.toLowerCase().replace(/\s*&\s*/g, '+').replace(/\s+/g, '-')}
+              <span className="mcard__owner">{slug}</span> / {slugify(profile.role)}
             </p>
             {profile.focusAreas.length > 0 && (
               <ul className="tags" aria-label="Focus areas">

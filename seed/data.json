@@ -1,52 +1,100 @@
 {
   "profile": {
     "name": "Arif Fadly Siregar",
-    "role": "Senior Software Engineer & AI Engineer",
+    "role": "AI Engineer · LLM & Applied Machine Learning",
     "prompt": "describe arif fadly siregar in one sentence",
     "headlines": [
-      "I build AI systems that ship: RAG pipelines, OCR ingestion, and the mobile apps people actually open.",
-      "I turn messy financial PDFs into answers an LLM can defend, then ship the app that asks the questions.",
-      "Seven years of Android, iOS and web, now pointed at retrieval, reasoning and evaluation.",
-      "From a 70M-user wallet to RAG over fund statements: software first, models where they earn their place."
+      "I make LLMs reliable enough to run real financial workflows: the rules decide, the model explains, a human approves.",
+      "I lead the technical direction of Nexus, an AI accounting platform where every figure traces back to a cited clause.",
+      "Eight years of shipping software, now spent turning stapled document bundles into balanced journal entries.",
+      "From a 70M-user wallet to fine-tuned Qwen models: software first, models where they earn their place."
     ],
-    "summary": "Senior Software Engineer & AI Engineer with 7+ years across FinTech, EdTech, HealthTech and telecom, building RAG systems, LLM pipelines and cross-platform apps.",
-    "bio": "I'm a software engineer who moved down the stack into models. I spent years shipping Android and iOS apps at scale, including DANA, one of Indonesia's largest fintech platforms, and now I design retrieval-augmented generation systems, OCR ingestion pipelines and LLM evaluation loops for private credit and fund accounting at Interopera.\n\nI care about the whole path from raw document to trusted answer: chunking that respects layout, retrieval you can measure, graph-based reasoning for multi-step calculations, and an interface that makes the result usable.\n\nAlong the way I've led mobile teams, built CI/CD from scratch, reverse-engineered apps to harden them against MITM and location spoofing, and published research on CNN-based fabric classification.",
+    "summary": "AI Engineer with 8+ years in software engineering, focused on making LLMs reliable enough to run real financial workflows: document AI, LLM fine-tuning, evaluation and human-in-the-loop systems.",
+    "bio": "I'm an AI engineer with 8+ years in software engineering, focused on making LLMs reliable enough to run real financial workflows. My master's research was in machine learning: CNN-based image classification, published in a Scopus-indexed journal.\n\nAt InterOpera I built, and now lead the technical direction of, Nexus: an AI accounting automation platform serving Korean and Indonesian enterprise clients. In 14 months I went from AI Software Engineer to Squad Lead to Tech/LLM Lead. I designed its document ingestion and classification architecture, built the accounting and asset management modules, and architected Decision Studio, the deterministic rule engine that makes the platform's output auditable.\n\nA model that is right most of the time isn't good enough for a journal entry. So I split the system: a deterministic rule and mapping engine makes the decision, the LLM explains it, and a human-in-the-loop approval layer gates anything that reaches production. Every figure traces back to an approved policy and a cited source clause.\n\nBefore that I spent years shipping mobile apps at scale, including DANA (70M+ users), and leading mobile teams at Mediatropy and Biznet.",
     "location": "",
     "email": "fadlyarif77@gmail.com",
-    "yearsExperience": 7,
+    "yearsExperience": 8,
     "available": true,
     "focusAreas": [
-      "AI engineering & LLM systems",
-      "Full-stack development",
-      "Mobile (Android & iOS)",
-      "Security & reverse engineering",
-      "Automation & DevOps"
+      "Trustworthy AI output",
+      "Document AI at production volume",
+      "Fine-tuning open-weight LLMs",
+      "Technical leadership"
     ],
     "facts": [
-      { "label": "architecture", "value": "Software engineer, fine-tuned into an AI engineer" },
-      { "label": "context", "value": "7+ years, 2017 to now" },
-      { "label": "training data", "value": "FinTech · EdTech · HealthTech · Telecom" },
-      { "label": "modalities", "value": "Android · iOS · Web · Backend · LLM" },
-      { "label": "specialized in", "value": "RAG, OCR pipelines, LLM evaluation" },
-      { "label": "published", "value": "Ulos fabric classification with CNN, IJICIC (Scopus)", "url": "http://www.ijicic.org/ijicic-170302.pdf" },
-      { "label": "languages", "value": "Indonesian (native) · English (fluent)" }
+      {
+        "label": "architecture",
+        "value": "Software engineer, fine-tuned into an AI engineer"
+      },
+      {
+        "label": "context",
+        "value": "8+ years, 2017 to now"
+      },
+      {
+        "label": "currently",
+        "value": "Tech / LLM Lead at InterOpera (Singapore, remote)"
+      },
+      {
+        "label": "specialized in",
+        "value": "Document AI, LoRA/QLoRA fine-tuning, LLM evaluation, human-in-the-loop"
+      },
+      {
+        "label": "core stack",
+        "value": "Python · LangGraph / LangChain · FastAPI · PostgreSQL & pgvector · PyTorch / Hugging Face · Next.js · Docker"
+      },
+      {
+        "label": "training data",
+        "value": "FinTech · EdTech · HealthTech · Telecom"
+      },
+      {
+        "label": "published",
+        "value": "Ulos fabric classification with CNN, IJICIC (Scopus)",
+        "url": "http://www.ijicic.org/ijicic-170302.pdf"
+      },
+      {
+        "label": "languages",
+        "value": "Indonesian (native) · English (fluent)"
+      }
     ],
     "socials": [
-      { "label": "LinkedIn", "url": "https://www.linkedin.com/in/arif-fadly-siregar-610279137/" },
-      { "label": "GitHub", "url": "https://github.com/devileya/" }
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/arif-fadly-siregar-610279137/"
+      },
+      {
+        "label": "GitHub",
+        "url": "https://github.com/devileya/"
+      }
     ],
     "avatar": "image.webp"
   },
   "projects": [
     {
-      "title": "Interopera",
+      "title": "InterOpera Nexus",
       "category": "ai",
       "platforms": "AI platform · Web",
       "featured": true,
       "image": "interopera.webp",
-      "summary": "AI infrastructure for private credit and fund accounting: RAG-based financial analysis over capital calls, distributions and NAV statements.",
-      "description": "Designed a RAG architecture with LangGraph that turns structured and unstructured fund data into a queryable knowledge base, with graph-based reasoning for multi-step calculations (MOIC, DPI, TVPI, IRR).\n\nBuilt the OCR ingestion pipeline for high-volume scanned PDFs (Tesseract, LandingAI, custom layout detection and field extraction), plus evaluation loops for model performance and a Next.js chat-and-analytics interface.",
-      "tech": ["Python", "LangGraph", "LangChain", "LLM", "OCR", "FastAPI", "PostgreSQL", "pgvector", "Docker", "Kubernetes", "Redis", "RabbitMQ", "Grafana", "Next.js"],
+      "summary": "AI accounting automation for Korean and Indonesian enterprises: documents in, balanced and auditable journal entries out. I built it from the first commit and now lead its technical direction.",
+      "description": "Nexus reads high-volume scanned and PDF accounting documents (OCR, layout parsing, page splitting, multi-label classification of stapled bundles, field extraction) and turns them into journal entries, financial statements and reconciliations.\n\nDecision Studio and the Policy Compiler keep the LLM out of the decision path: a deterministic rule and mapping engine decides, the model explains, and a human-in-the-loop approval layer gates production. Local Qwen models fine-tuned with LoRA/QLoRA handle extraction and classification, measured against frozen eval sets.",
+      "tech": [
+        "Python",
+        "FastAPI",
+        "LangGraph",
+        "LangChain",
+        "Qwen",
+        "LoRA / QLoRA",
+        "PyTorch",
+        "Hugging Face",
+        "OCR",
+        "PostgreSQL",
+        "pgvector",
+        "Next.js",
+        "React",
+        "Docker",
+        "Jenkins",
+        "Harbor"
+      ],
       "liveUrl": "https://www.interopera.co"
     },
     {
@@ -57,7 +105,21 @@
       "image": "eureka.webp",
       "summary": "An AI learning app for kids: talk with Eureka, generate stories and quizzes, level up, in any language.",
       "description": "Built the AI features on Android and parts of iOS: text-to-speech, speech-to-text, AI-generated stories, quizzes and images.",
-      "tech": ["Kotlin", "Swift", "MVVM", "Koin", "Coroutines", "Retrofit", "Alamofire", "Firebase", "Lottie", "RevenueCat", "Sentry", "OpenAI", "DALL·E"],
+      "tech": [
+        "Kotlin",
+        "Swift",
+        "MVVM",
+        "Koin",
+        "Coroutines",
+        "Retrofit",
+        "Alamofire",
+        "Firebase",
+        "Lottie",
+        "RevenueCat",
+        "Sentry",
+        "OpenAI",
+        "DALL·E"
+      ],
       "liveUrl": "https://play.google.com/store/apps/details?id=com.mediatropy.eureka",
       "altUrl": "https://apps.apple.com/id/app/hi-eureka-kids-ai-learning/id1671082808"
     },
@@ -67,7 +129,11 @@
       "platforms": "Research · Android",
       "summary": "Master's research: a CNN that classifies traditional Ulos fabric, deployed in an Android app. Published in IJICIC (Scopus-indexed).",
       "description": "Trained a convolutional neural network to classify Ulos fabric types and integrated the model into an Android application.",
-      "tech": ["CNN", "Deep learning", "Android"],
+      "tech": [
+        "CNN",
+        "Deep learning",
+        "Android"
+      ],
       "liveUrl": "http://www.ijicic.org/ijicic-170302.pdf"
     },
     {
@@ -78,7 +144,19 @@
       "image": "geolancer-mobile.jpg",
       "summary": "Crowdsourced POI collection, rewarded in crypto. On-device blur detection and a hardened client.",
       "description": "Built address standardization, an image-blur detection model with CameraX and TensorFlow Lite, MBP, and audio/video collection.\n\nAudited the app by reverse-engineering it with JADX and Ghidra, and added SSL pinning against MITM and checks against location spoofing.",
-      "tech": ["Kotlin", "MVVM", "Hilt", "TensorFlow Lite", "CameraX", "Play Integrity", "Mixpanel", "Twilio", "Firebase", "JADX", "Ghidra"],
+      "tech": [
+        "Kotlin",
+        "MVVM",
+        "Hilt",
+        "TensorFlow Lite",
+        "CameraX",
+        "Play Integrity",
+        "Mixpanel",
+        "Twilio",
+        "Firebase",
+        "JADX",
+        "Ghidra"
+      ],
       "liveUrl": "https://play.google.com/store/apps/details?id=com.sheelafoam.quadrant"
     },
     {
@@ -89,7 +167,19 @@
       "image": "dana-mobile.jpg",
       "summary": "One of Indonesia's largest wallets, 70M+ users. I owned DANA Viz (pay with face authentication) and Contact Injection.",
       "description": "Worked across the Lifestyle and Core teams: DANA Viz, Contact Injection, wallet features, NFC e-money integration, and the internal SDK distributed through a private Maven repository.",
-      "tech": ["Kotlin", "Java", "MVP", "Dagger", "Epoxy", "Modularization", "Firebase", "Split.io", "Branch.io", "Alipay", "DexGuard"],
+      "tech": [
+        "Kotlin",
+        "Java",
+        "MVP",
+        "Dagger",
+        "Epoxy",
+        "Modularization",
+        "Firebase",
+        "Split.io",
+        "Branch.io",
+        "Alipay",
+        "DexGuard"
+      ],
       "liveUrl": "https://play.google.com/store/apps/details?id=id.dana"
     },
     {
@@ -99,7 +189,17 @@
       "image": "stellkey.webp",
       "summary": "A habit-building app for kids, mostly used in France: tasks, rewards and a customizable avatar.",
       "description": "Built every feature on the Android side: levelling, avatars, a scratch-card reward system and voice notes.",
-      "tech": ["Kotlin", "MVVM", "Koin", "Coroutines", "Retrofit", "Firebase", "Lottie", "RevenueCat", "Sentry"],
+      "tech": [
+        "Kotlin",
+        "MVVM",
+        "Koin",
+        "Coroutines",
+        "Retrofit",
+        "Firebase",
+        "Lottie",
+        "RevenueCat",
+        "Sentry"
+      ],
       "liveUrl": "https://play.google.com/store/apps/details?id=com.stellkey.android"
     },
     {
@@ -109,7 +209,12 @@
       "image": "appen-mobile.webp",
       "summary": "A data-collection app for training data, including audio and video.",
       "description": "Built the audio and video collection prompts.",
-      "tech": ["React Native", "Axios", "CodePush", "Azure"],
+      "tech": [
+        "React Native",
+        "Axios",
+        "CodePush",
+        "Azure"
+      ],
       "liveUrl": "https://play.google.com/store/apps/details?id=com.appen.mobile.global"
     },
     {
@@ -119,7 +224,18 @@
       "image": "peta-mobile.png",
       "summary": "An early-warning and asset-reporting system for PLN, Indonesia's state electricity company, across Sumatra and Kalimantan.",
       "description": "Led the team building it natively in Kotlin and Swift: authentication, live location tracking, analytics charts and notifications.",
-      "tech": ["Kotlin", "Swift", "MVVM", "Koin", "Coroutines", "Retrofit", "Alamofire", "Firebase", "Google Maps", "Charts"],
+      "tech": [
+        "Kotlin",
+        "Swift",
+        "MVVM",
+        "Koin",
+        "Coroutines",
+        "Retrofit",
+        "Alamofire",
+        "Firebase",
+        "Google Maps",
+        "Charts"
+      ],
       "liveUrl": "https://play.google.com/store/apps/details?id=com.pln.peta"
     },
     {
@@ -129,7 +245,13 @@
       "image": "pdkb-mobile.jpg",
       "summary": "Inventory management for PLN Sumatra: incoming and outgoing items tracked by QR code.",
       "description": "Built with my team in Flutter, using BLoC and a QR scanner.",
-      "tech": ["Flutter", "Dart", "BLoC", "QR scanner", "Firebase"],
+      "tech": [
+        "Flutter",
+        "Dart",
+        "BLoC",
+        "QR scanner",
+        "Firebase"
+      ],
       "liveUrl": "https://play.google.com/store/apps/details?id=com.pln.pdkb"
     },
     {
@@ -139,7 +261,16 @@
       "image": "sehatq-android.png",
       "summary": "A health app with telemedicine chat and video, an online pharmacy, doctor booking and health records.",
       "description": "Led the Android team in the Core Tribe: telemedicine, pharmacy with location-based merchant filtering, appointment and lab booking, COVID-19 vaccination management.",
-      "tech": ["Kotlin", "MVVM", "Koin", "Coroutines", "Retrofit", "Firebase", "Google Maps", "Sendbird"],
+      "tech": [
+        "Kotlin",
+        "MVVM",
+        "Koin",
+        "Coroutines",
+        "Retrofit",
+        "Firebase",
+        "Google Maps",
+        "Sendbird"
+      ],
       "liveUrl": "https://play.google.com/store/apps/details?id=com.she.sehatq"
     },
     {
@@ -149,7 +280,15 @@
       "image": "doctorapp-android.png",
       "summary": "The doctor side of SehatQ telemedicine: chat or video with patients, diagnose and recommend medication.",
       "description": "Built the core doctor flows: telemedicine sessions and prescription management.",
-      "tech": ["Kotlin", "MVVM", "Dagger", "Coroutines", "Retrofit", "Firebase", "Sendbird"],
+      "tech": [
+        "Kotlin",
+        "MVVM",
+        "Dagger",
+        "Coroutines",
+        "Retrofit",
+        "Firebase",
+        "Sendbird"
+      ],
       "liveUrl": "https://play.google.com/store/apps/details?id=com.she.sehatqdoctor.android"
     },
     {
@@ -159,7 +298,15 @@
       "image": "nusa-android.png",
       "summary": "Booking for surfing, snorkeling and diving trips, for a German startup. Finished, but never launched because of COVID-19.",
       "description": "Built booking, payments and UI with an international team.",
-      "tech": ["Java", "MVVM", "Dagger", "RxJava2", "Lombok", "Firebase", "Google Maps"]
+      "tech": [
+        "Java",
+        "MVVM",
+        "Dagger",
+        "RxJava2",
+        "Lombok",
+        "Firebase",
+        "Google Maps"
+      ]
     },
     {
       "title": "Biznet Workforce Management",
@@ -168,7 +315,18 @@
       "image": "biznetwfm-android.png",
       "summary": "The field engineer's toolkit at Biznet: tickets, routing, inventory, modem registration, speed tests and digital signatures.",
       "description": "Led development: task management, route navigation, equipment inventory, chat and automated modem registration.",
-      "tech": ["Kotlin", "MVP", "MVVM", "Room", "Koin", "RxJava2", "Coroutines", "Retrofit", "Firebase", "Google Maps"]
+      "tech": [
+        "Kotlin",
+        "MVP",
+        "MVVM",
+        "Room",
+        "Koin",
+        "RxJava2",
+        "Coroutines",
+        "Retrofit",
+        "Firebase",
+        "Google Maps"
+      ]
     },
     {
       "title": "Biznet Intranet",
@@ -177,7 +335,12 @@
       "image": "biznetintranet-flutter.png",
       "summary": "The internal app for Biznet employees.",
       "description": "Built in Flutter with the BLoC pattern.",
-      "tech": ["Flutter", "Dart", "BLoC", "Dio"]
+      "tech": [
+        "Flutter",
+        "Dart",
+        "BLoC",
+        "Dio"
+      ]
     },
     {
       "title": "MyBiznet",
@@ -186,7 +349,16 @@
       "image": "mybiznet-app.webp",
       "summary": "Biznet's customer app: buy and change packages, track the engineer's visit, raise support tickets.",
       "description": "Built with Biznet's vendors.",
-      "tech": ["Kotlin", "MVP", "Dagger", "RxJava", "Retrofit", "Firebase", "Google Maps", "Swift"],
+      "tech": [
+        "Kotlin",
+        "MVP",
+        "Dagger",
+        "RxJava",
+        "Retrofit",
+        "Firebase",
+        "Google Maps",
+        "Swift"
+      ],
       "liveUrl": "https://play.google.com/store/apps/details?id=biznet.id.android"
     },
     {
@@ -196,7 +368,16 @@
       "image": "gabut-android.png",
       "summary": "A messaging app with a timeline, in the spirit of WhatsApp and Telegram.",
       "description": "Android client plus the PHP backend.",
-      "tech": ["Java", "MVC", "Dagger", "RxJava", "Retrofit", "Firebase", "PHP", "Yii"],
+      "tech": [
+        "Java",
+        "MVC",
+        "Dagger",
+        "RxJava",
+        "Retrofit",
+        "Firebase",
+        "PHP",
+        "Yii"
+      ],
       "liveUrl": "https://play.google.com/store/apps/details?id=lagi.gabut.inc"
     },
     {
@@ -206,7 +387,14 @@
       "image": "cv-web.png",
       "summary": "The site you're on: a Go monolith with a React front end, Postgres for content and Garage for files, plus a private dashboard.",
       "description": "Content, images and the CV are all editable from a dashboard at a private path.",
-      "tech": ["Go", "React", "TypeScript", "PostgreSQL", "Garage", "S3"],
+      "tech": [
+        "Go",
+        "React",
+        "TypeScript",
+        "PostgreSQL",
+        "Garage",
+        "S3"
+      ],
       "liveUrl": "/"
     },
     {
@@ -216,7 +404,12 @@
       "image": "cabana-web.webp",
       "summary": "Hotel reservations, a blog, surf and weather reports, and events for a surf stay.",
       "description": "",
-      "tech": ["CodeIgniter", "PHP", "MySQL", "jQuery"],
+      "tech": [
+        "CodeIgniter",
+        "PHP",
+        "MySQL",
+        "jQuery"
+      ],
       "liveUrl": "https://cabanasurfandstay.com"
     },
     {
@@ -226,7 +419,14 @@
       "image": "danalaut-web.webp",
       "summary": "Peer-to-peer lending for Indonesia's maritime economy.",
       "description": "Built the REST API in Symfony with JWT auth and role-based access.",
-      "tech": ["Angular", "TypeScript", "Symfony", "PHP", "PostgreSQL", "JWT"],
+      "tech": [
+        "Angular",
+        "TypeScript",
+        "Symfony",
+        "PHP",
+        "PostgreSQL",
+        "JWT"
+      ],
       "liveUrl": "https://danalaut.id/"
     },
     {
@@ -236,39 +436,103 @@
       "image": "virallo-web.webp",
       "summary": "Brand campaign and influencer endorsement management.",
       "description": "Laravel backend and Angular front end.",
-      "tech": ["Angular", "TypeScript", "Laravel", "PHP", "PostgreSQL", "JWT"],
+      "tech": [
+        "Angular",
+        "TypeScript",
+        "Laravel",
+        "PHP",
+        "PostgreSQL",
+        "JWT"
+      ],
       "liveUrl": "https://virallo.id/"
     }
   ],
   "experiences": [
     {
       "kind": "work",
-      "title": "AI Engineer",
-      "organization": "Interopera",
-      "periodStart": "2025-06",
+      "title": "Tech / LLM Lead",
+      "organization": "InterOpera",
+      "periodStart": "2026-06",
       "periodEnd": "",
-      "summary": "End-to-end AI systems for credit fund and accounting workflows: RAG architecture, OCR ingestion and an analytics UI.",
+      "summary": "Technical lead across every Nexus module (Singapore, remote): architecture, model reliability, and making sure each engineer understands the product, not just the ticket.",
       "highlights": [
-        "Built a RAG system on LangGraph for contextual financial analytics over capital calls, distributions and NAV statements.",
-        "Designed the OCR ingestion pipeline (Tesseract, LandingAI) with layout detection, field extraction and terminology normalization.",
-        "Fine-tuned and evaluated LLMs for fund metrics (MOIC, DPI, TVPI, IRR) with benchmarking loops.",
-        "Shipped a Next.js chat and analytics interface with real-time charts."
+        "Architected Decision Studio and the Policy Compiler: a human-in-the-loop pipeline that compiles regulatory and contractual rulebooks into approved policy items, with grounding and promotion gates before anything reaches production agents.",
+        "Reduced hallucination by taking the LLM out of the decision path: a deterministic mapping and rule engine decides, the model explains, and every output is auditable back to an approved policy and a cited clause.",
+        "Fine-tuned local open-weight LLMs (Qwen family, LoRA/QLoRA) for document extraction and classification, substantially beating the base model on production accounting documents while keeping client data in-house.",
+        "Built the evaluation and data strategy: frozen eval sets, a teach–compare–reteach loop, and typed human review events (accept / edit / reject with reason codes) as the primary training-data asset.",
+        "Set the rule that volatile facts (chart of accounts, vendor mappings, tenant rulesets) live in retrieval and context, never in model weights."
       ],
-      "tech": ["LangGraph", "LangChain", "OpenAI API", "Hugging Face", "FastAPI", "pgvector", "Next.js", "Docker", "GitHub Actions"]
+      "tech": [
+        "Qwen",
+        "LoRA / QLoRA",
+        "LangGraph",
+        "FastAPI",
+        "PostgreSQL",
+        "pgvector"
+      ]
     },
     {
       "kind": "work",
-      "title": "Senior Mobile Developer & Mobile Team Lead",
+      "title": "Squad Lead",
+      "organization": "InterOpera",
+      "periodStart": "2026-01",
+      "periodEnd": "2026-05",
+      "summary": "Led the Accounting & Finance squad building the core financial engine of Nexus.",
+      "highlights": [
+        "Owned delivery of journal entry generation, financial statements (trial balance, P&L, balance sheet) and reconciliation for multi-tenant Korean and Indonesian clients.",
+        "Drove the document-to-journal-entry accuracy programme: frozen ground-truth snapshots, a parity harness against validated answers, per-side debit/credit line matching, and a hard Σdebit = Σcredit gate before persistence.",
+        "Designed the human-in-the-loop review workflow so every reviewer correction becomes reusable training signal.",
+        "Turned product requirements into engineering work: scoping, sequencing dependencies, design and code review, unblocking the team."
+      ],
+      "tech": []
+    },
+    {
+      "kind": "work",
+      "title": "AI Software Engineer",
+      "organization": "InterOpera",
+      "periodStart": "2025-07",
+      "periodEnd": "2025-12",
+      "summary": "Founding engineer on Nexus, the AI-driven accounting automation platform.",
+      "highlights": [
+        "Built the document ingestion pipeline end to end: OCR, layout parsing, page splitting and field extraction for high-volume scanned and PDF accounting documents.",
+        "Owned document classification: multi-label typing of every page in a stapled bundle (payment vouchers, official receipts, journal vouchers, invoice bills, tax invoices, bank advices), routing each to the right extractor.",
+        "Built the Accounting module (chart of accounts, GL account typing, document-to-journal-entry with balanced debit/credit lines) and the Asset Management module (fixed asset registers, depreciation schedules and their postings)."
+      ],
+      "tech": [
+        "Python",
+        "FastAPI",
+        "PostgreSQL",
+        "pgvector",
+        "LangGraph",
+        "LangChain",
+        "Next.js",
+        "Docker",
+        "Jenkins",
+        "Harbor"
+      ]
+    },
+    {
+      "kind": "work",
+      "title": "Lead Mobile Developer",
       "organization": "Mediatropy",
       "periodStart": "2023-11",
       "periodEnd": "2025-05",
-      "summary": "Led mobile development of Hi Eureka and Stellkey on Android and iOS, for users mostly in France.",
+      "summary": "Led the development and launch of Hi Eureka and Stellkey on Android and iOS, mostly for users in France, and managed the mobile team.",
       "highlights": [
         "Built TTS, STT and AI-generated stories, quizzes and images for Hi Eureka.",
         "Built Stellkey's levelling, avatars, scratch rewards and voice notes.",
         "Helped QA build AI-assisted Playwright automation."
       ],
-      "tech": ["Jetpack Compose", "Kotlin", "Swift", "SwiftUI", "Firebase", "RevenueCat", "Sentry", "n8n"]
+      "tech": [
+        "Jetpack Compose",
+        "Kotlin",
+        "Swift",
+        "SwiftUI",
+        "Firebase",
+        "RevenueCat",
+        "Sentry",
+        "n8n"
+      ]
     },
     {
       "kind": "work",
@@ -282,11 +546,16 @@
         "Restructured the codebase around Clean Architecture.",
         "Ran security assessments: MITM testing, location-spoofing prevention, reverse engineering with JADX and Ghidra."
       ],
-      "tech": ["Kotlin", "TensorFlow Lite", "CameraX", "Hilt"]
+      "tech": [
+        "Kotlin",
+        "TensorFlow Lite",
+        "CameraX",
+        "Hilt"
+      ]
     },
     {
       "kind": "work",
-      "title": "Software Development Engineer (Android)",
+      "title": "Software Development Engineer",
       "organization": "DANA",
       "periodStart": "2021-08",
       "periodEnd": "2022-09",
@@ -295,11 +564,16 @@
         "PIC for DANA Viz and Contact Injection, from proof of concept to documentation.",
         "Maintained the internal SDK distributed through a private Maven repository."
       ],
-      "tech": ["Kotlin", "Java", "Dagger", "DexGuard"]
+      "tech": [
+        "Kotlin",
+        "Java",
+        "Dagger",
+        "DexGuard"
+      ]
     },
     {
       "kind": "work",
-      "title": "Senior Software Engineer (Android)",
+      "title": "Senior Software Engineer",
       "organization": "SehatQ",
       "periodStart": "2020-06",
       "periodEnd": "2021-08",
@@ -307,7 +581,12 @@
       "highlights": [
         "Telemedicine chat and video, online pharmacy, booking, and COVID-19 vaccination management."
       ],
-      "tech": ["Kotlin", "Koin", "Coroutines", "Sendbird"]
+      "tech": [
+        "Kotlin",
+        "Koin",
+        "Coroutines",
+        "Sendbird"
+      ]
     },
     {
       "kind": "work",
@@ -317,7 +596,10 @@
       "periodEnd": "2020-04",
       "summary": "Built a vacation-activity booking app for a Germany-based startup.",
       "highlights": [],
-      "tech": ["Kotlin", "MVVM"]
+      "tech": [
+        "Kotlin",
+        "MVVM"
+      ]
     },
     {
       "kind": "work",
@@ -331,7 +613,11 @@
         "Shipped the field engineer app, MyBiznet and the employee intranet.",
         "Ran bi-weekly training and feedback sessions with field engineers."
       ],
-      "tech": ["Kotlin", "Flutter", "Jenkins"]
+      "tech": [
+        "Kotlin",
+        "Flutter",
+        "Jenkins"
+      ]
     },
     {
       "kind": "work",
@@ -340,8 +626,14 @@
       "periodStart": "2017-08",
       "periodEnd": "2018-08",
       "summary": "Internship turned remote role: REST APIs for Danalaut, Laravel and Angular for Virallo.",
-      "highlights": [],
-      "tech": ["Symfony", "Laravel", "Angular"]
+      "highlights": [
+        "Implemented secure authentication, role-based access control and performance optimisations."
+      ],
+      "tech": [
+        "Symfony",
+        "Laravel",
+        "Angular"
+      ]
     },
     {
       "kind": "education",
@@ -355,7 +647,7 @@
     },
     {
       "kind": "education",
-      "title": "B.A.Sc. Information System",
+      "title": "B.A.Sc. Information Systems",
       "organization": "Polytechnic Caltex Riau",
       "periodStart": "",
       "periodEnd": "2018",
@@ -365,25 +657,145 @@
     }
   ],
   "skills": [
-    { "name": "Python", "category": "Languages", "level": "Expert" },
-    { "name": "Kotlin", "category": "Languages", "level": "Expert" },
-    { "name": "Java", "category": "Languages", "level": "Advanced" },
-    { "name": "TypeScript", "category": "Languages", "level": "Advanced" },
-    { "name": "JavaScript", "category": "Languages", "level": "Advanced" },
-    { "name": "PHP", "category": "Languages", "level": "Advanced" },
-    { "name": "C++", "category": "Languages", "level": "Basic" },
-    { "name": "AI / ML", "category": "AI & data", "level": "Advanced" },
-    { "name": "Jupyter", "category": "AI & data", "level": "Advanced" },
-    { "name": "Android NDK", "category": "Mobile", "level": "Expert" },
-    { "name": "iOS (Swift)", "category": "Mobile", "level": "Advanced" },
-    { "name": "Flutter", "category": "Mobile", "level": "Advanced" },
-    { "name": "React Native", "category": "Mobile", "level": "Advanced" },
-    { "name": "Mobile security", "category": "Mobile", "level": "Advanced" },
-    { "name": "Next.js", "category": "Web", "level": "Intermediate" },
-    { "name": "CI/CD", "category": "Infrastructure", "level": "Advanced" },
-    { "name": "Docker", "category": "Infrastructure", "level": "Intermediate" },
-    { "name": "Jenkins", "category": "Infrastructure", "level": "Intermediate" },
-    { "name": "Cloud computing", "category": "Infrastructure", "level": "Intermediate" },
-    { "name": "Software architecture", "category": "Infrastructure", "level": "Intermediate" }
+    {
+      "name": "Python",
+      "category": "AI / ML",
+      "level": "Expert"
+    },
+    {
+      "name": "AI / ML",
+      "category": "AI / ML",
+      "level": "Expert"
+    },
+    {
+      "name": "RAG & vector databases",
+      "category": "AI / ML",
+      "level": "Expert"
+    },
+    {
+      "name": "LLM fine-tuning (LoRA/QLoRA)",
+      "category": "AI / ML",
+      "level": "Advanced"
+    },
+    {
+      "name": "PyTorch / Hugging Face",
+      "category": "AI / ML",
+      "level": "Advanced"
+    },
+    {
+      "name": "LangGraph / LangChain",
+      "category": "AI / ML",
+      "level": "Advanced"
+    },
+    {
+      "name": "Document AI (OCR, layout, extraction)",
+      "category": "AI / ML",
+      "level": "Advanced"
+    },
+    {
+      "name": "LLM evaluation & human-in-the-loop",
+      "category": "AI / ML",
+      "level": "Advanced"
+    },
+    {
+      "name": "Computer vision (CNN)",
+      "category": "AI / ML",
+      "level": "Intermediate"
+    },
+    {
+      "name": "TensorFlow / TF Lite",
+      "category": "AI / ML",
+      "level": "Intermediate"
+    },
+    {
+      "name": "System architecture",
+      "category": "Architecture & backend",
+      "level": "Expert"
+    },
+    {
+      "name": "FastAPI",
+      "category": "Architecture & backend",
+      "level": "Advanced"
+    },
+    {
+      "name": "PostgreSQL / pgvector",
+      "category": "Architecture & backend",
+      "level": "Advanced"
+    },
+    {
+      "name": "Golang",
+      "category": "Architecture & backend",
+      "level": "Advanced"
+    },
+    {
+      "name": "PHP (Symfony, Laravel)",
+      "category": "Architecture & backend",
+      "level": "Intermediate"
+    },
+    {
+      "name": "Kotlin",
+      "category": "Web & mobile",
+      "level": "Expert"
+    },
+    {
+      "name": "Jetpack Compose",
+      "category": "Web & mobile",
+      "level": "Advanced"
+    },
+    {
+      "name": "TypeScript / JavaScript",
+      "category": "Web & mobile",
+      "level": "Advanced"
+    },
+    {
+      "name": "Next.js / React",
+      "category": "Web & mobile",
+      "level": "Advanced"
+    },
+    {
+      "name": "Firebase",
+      "category": "Web & mobile",
+      "level": "Advanced"
+    },
+    {
+      "name": "Swift / SwiftUI",
+      "category": "Web & mobile",
+      "level": "Intermediate"
+    },
+    {
+      "name": "Flutter",
+      "category": "Web & mobile",
+      "level": "Intermediate"
+    },
+    {
+      "name": "Angular",
+      "category": "Web & mobile",
+      "level": "Intermediate"
+    },
+    {
+      "name": "Docker & CI/CD",
+      "category": "Infrastructure & quality",
+      "level": "Advanced"
+    },
+    {
+      "name": "Cloud computing",
+      "category": "Infrastructure & quality",
+      "level": "Advanced"
+    },
+    {
+      "name": "System security",
+      "category": "Infrastructure & quality",
+      "level": "Advanced"
+    },
+    {
+      "name": "Playwright",
+      "category": "Infrastructure & quality",
+      "level": "Intermediate"
+    },
+    {
+      "name": "Technical leadership & team management",
+      "category": "Leadership",
+      "level": "Expert"
+    }
   ]
 }
