@@ -1,0 +1,25 @@
+# env / secrets
+.env
+.env.*
+!.env.example
+
+# go
+/bin/
+*.test
+coverage.out
+
+# web
+node_modules/
+web/dist/*
+!web/dist/.gitkeep
+*.tsbuildinfo
+.vite/
+
+# os / editors
+.DS_Store
+.idea/
+.vscode/
+*.log
+
+# seed CV stays local; upload it through the dashboard or `seed -cv`
+seed/*.pdf

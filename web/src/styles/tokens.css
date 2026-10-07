@@ -1,0 +1,130 @@
+/*
+ * Palette: matplotlib's "magma" colormap, the scale ML people read attention
+ * maps and loss surfaces in. Black is the bottom of the ramp, not a backdrop;
+ * every accent is a point further up it. --heat-* is the ramp itself and is
+ * reserved for things that encode a value (probability, attention, level).
+ */
+:root {
+  --ink-0: #07060b; /* page */
+  --ink-1: #0e0c15; /* raised surface */
+  --ink-2: #171322; /* inset / input */
+  --line: #262036;
+  --line-strong: #3a3150;
+
+  --text: #ece8f2;
+  --text-dim: #a49cb4;
+  --text-faint: #6c6480;
+
+  --heat-0: #1c1044;
+  --heat-1: #3b0f70;
+  --heat-2: #8c2981;
+  --heat-3: #de4968;
+  --heat-4: #fe9f6d;
+  --heat-5: #fcfdbf;
+
+  --accent: var(--heat-4);
+  --accent-strong: var(--heat-3);
+  --focus: var(--heat-5);
+  --danger: #ff6b6b;
+  --ok: #8be9b0;
+
+  --font-display: 'Martian Mono Variable', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --font-body: 'Schibsted Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
+
+  /* type scale: 1.25 for body, display jumps are deliberate */
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.875rem;
+  --fs-md: 1rem;
+  --fs-lg: 1.25rem;
+  --fs-xl: 1.6rem;
+  --fs-2xl: clamp(1.9rem, 3.2vw, 2.6rem);
+  --fs-hero: clamp(1.7rem, 4.1vw, 3.35rem);
+
+  --radius: 6px;
+  --radius-lg: 12px;
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --maxw: 1200px;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--ink-0);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: var(--fs-md);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+::selection {
+  background: var(--heat-2);
+  color: var(--heat-5);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.mono {
+  font-family: var(--font-display);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
