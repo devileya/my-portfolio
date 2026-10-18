@@ -176,6 +176,20 @@ func (s *Service) Require(next http.Handler) http.Handler {
 	})
 }
 
+// SignedIn reports a valid dashboard session cookie on r, without the
+// revocation lookup Require does: good enough to tell the owner's own visits
+// apart in analytics, never for access control.
+func (s *Service) SignedIn(r *http.Request) bool {
+	c, err := r.Cookie(CookieName)
+	if err != nil {
+		return false
+	}
+	var cl claims
+	_, err = jwt.ParseWithClaims(c.Value, &cl, func(t *jwt.Token) (any, error) { return s.secret, nil },
+		jwt.WithValidMethods([]string{jwt.SigningMethodHS256.Alg()}), jwt.WithExpirationRequired())
+	return err == nil
+}
+
 func FromContext(ctx context.Context) Admin {
 	a, _ := ctx.Value(ctxKey{}).(Admin)
 	return a

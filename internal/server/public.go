@@ -12,6 +12,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/devileya/my-portfolio/internal/analytics"
 	"github.com/devileya/my-portfolio/internal/storage"
 )
 
@@ -23,6 +24,7 @@ func (s *Server) getSite(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	s.repo.Increment(context.WithoutCancel(r.Context()), "site_views")
+	s.stats.Record(r.Context(), analytics.FromRequest(r, "view", s.cfg.TrustProxy, s.auth.SignedIn(r)))
 	writeJSON(w, http.StatusOK, site)
 }
 
@@ -64,6 +66,10 @@ func (s *Server) downloadCV(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Security-Policy", "default-src 'none'; sandbox")
 	if r.Method != http.MethodHead && disposition == "attachment" {
 		s.repo.Increment(context.WithoutCancel(r.Context()), "cv_downloads")
+	}
+	// Opening the CV in the browser counts as a look at it too.
+	if r.Method != http.MethodHead {
+		s.stats.Record(r.Context(), analytics.FromRequest(r, "cv", s.cfg.TrustProxy, s.auth.SignedIn(r)))
 	}
 	_, _ = io.Copy(w, obj)
 }

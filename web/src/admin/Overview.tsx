@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { adminApi } from '../lib/api';
 import { ErrorNote, Loading, PageHeader, Panel, useLoad } from './ui';
+import Visitors from './Visitors';
 
 export default function Overview() {
   const stats = useLoad(adminApi.stats);
@@ -8,7 +9,7 @@ export default function Overview() {
 
   return (
     <>
-      <PageHeader title="Overview" hint="Counts since the site went live on this server." />
+      <PageHeader title="Overview" hint="All-time totals since the site went live on this server, bots included. Visitors below counts people only." />
 
       {stats.error && <ErrorNote text={stats.error} onRetry={stats.reload} />}
       {!stats.data && !stats.error && <Loading />}
@@ -27,6 +28,8 @@ export default function Overview() {
           point at a Garage key with access to the bucket. Text edits still work.
         </div>
       )}
+
+      <Visitors />
 
       <Panel title="Quick links">
         <ul className="adm-links">

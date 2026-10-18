@@ -20,6 +20,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 
+	"github.com/devileya/my-portfolio/internal/analytics"
 	"github.com/devileya/my-portfolio/internal/auth"
 	"github.com/devileya/my-portfolio/internal/config"
 	"github.com/devileya/my-portfolio/internal/content"
@@ -33,6 +34,7 @@ type Server struct {
 	auth  *auth.Service
 	store *storage.Store
 	jobs  *jobs.Service
+	stats *analytics.Repo
 	web   fs.FS
 	index []byte
 
@@ -40,13 +42,13 @@ type Server struct {
 	messageThrottle *auth.Throttle
 }
 
-func New(cfg config.Config, repo *content.Repo, authSvc *auth.Service, store *storage.Store, jobsSvc *jobs.Service, web fs.FS) (*Server, error) {
+func New(cfg config.Config, repo *content.Repo, authSvc *auth.Service, store *storage.Store, jobsSvc *jobs.Service, stats *analytics.Repo, web fs.FS) (*Server, error) {
 	index, err := fs.ReadFile(web, "index.html")
 	if err != nil {
 		return nil, errors.New("web/dist/index.html missing: run `make web` before building the server")
 	}
 	return &Server{
-		cfg: cfg, repo: repo, auth: authSvc, store: store, jobs: jobsSvc, web: web, index: index,
+		cfg: cfg, repo: repo, auth: authSvc, store: store, jobs: jobsSvc, stats: stats, web: web, index: index,
 		loginThrottle:   auth.NewThrottle(8, 15*time.Minute),
 		messageThrottle: auth.NewThrottle(5, 10*time.Minute),
 	}, nil
@@ -55,7 +57,7 @@ func New(cfg config.Config, repo *content.Repo, authSvc *auth.Service, store *st
 func (s *Server) Routes() http.Handler {
 	r := chi.NewRouter()
 	if s.cfg.TrustProxy {
-		r.Use(middleware.RealIP)
+		r.Use(middleware.RealIP, cloudflareIP)
 	}
 	r.Use(middleware.RequestID, middleware.Recoverer, requestLog, securityHeaders)
 
@@ -211,6 +213,18 @@ func requestLog(next http.Handler) http.Handler {
 		}
 		slog.Info("http", "method", r.Method, "path", r.URL.Path, "status", ww.Status(),
 			"ms", time.Since(start).Milliseconds())
+	})
+}
+
+// cloudflareIP puts the visitor's address in RemoteAddr. Cloudflare sits in
+// front of nginx, so X-Real-IP / X-Forwarded-For carry Cloudflare's own
+// address; CF-Connecting-IP carries the visitor's. Only used with TrustProxy.
+func cloudflareIP(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if ip := net.ParseIP(strings.TrimSpace(r.Header.Get("CF-Connecting-IP"))); ip != nil {
+			r.RemoteAddr = net.JoinHostPort(ip.String(), "0")
+		}
+		next.ServeHTTP(w, r)
 	})
 }
 

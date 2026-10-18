@@ -1,5 +1,6 @@
 import type {
   Admin,
+  Analytics,
   Experience,
   Message,
   Profile,
@@ -95,6 +96,8 @@ export const adminApi = {
   changePassword: (current: string, next: string) =>
     put<void>('/api/admin/password', { current, next }),
   stats: () => get<Stats>('/api/admin/stats'),
+  analytics: (days: number) =>
+    get<Analytics>(`/api/admin/analytics?days=${days}&tz=${encodeURIComponent(Intl.DateTimeFormat().resolvedOptions().timeZone)}`),
 
   profile: () => get<Profile>('/api/admin/profile'),
   saveProfile: (p: Profile) => put<Profile>('/api/admin/profile', p),

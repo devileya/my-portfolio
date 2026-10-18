@@ -127,3 +127,42 @@ export interface Admin {
   id: number;
   email: string;
 }
+
+export interface VisitPlace {
+  code: string;
+  name: string;
+  views: number;
+  cv: number;
+}
+
+export interface VisitEvent {
+  at: string;
+  kind: 'view' | 'cv';
+  ip: string;
+  country: string;
+  countryCode: string;
+  region: string;
+  city: string;
+  referrer: string;
+  device: string;
+  browser: string;
+  os: string;
+  bot: boolean;
+}
+
+export interface Analytics {
+  days: number;
+  timezone: string;
+  views: number;
+  cv: number;
+  visitors: number;
+  bots: number;
+  hasCity: boolean;
+  since: string | null;
+  daily: { day: string; views: number; cv: number }[];
+  hours: { hour: number; views: number; cv: number }[];
+  countries: VisitPlace[];
+  cities: VisitPlace[];
+  referrers: { host: string; views: number; cv: number }[];
+  recentCv: VisitEvent[];
+}

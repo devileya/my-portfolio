@@ -10,6 +10,7 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/go-chi/chi/v5"
 
@@ -28,7 +29,8 @@ func (s *Server) adminRoutes(r chi.Router) {
 		writeJSON(w, http.StatusOK, auth.FromContext(r.Context()))
 	})
 	r.Put("/password", s.changePassword)
-	r.Get("/stats", s.stats)
+	r.Get("/stats", s.getStats)
+	r.Get("/analytics", s.getAnalytics)
 
 	r.Get("/profile", s.getProfile)
 	r.Put("/profile", s.putProfile)
@@ -123,7 +125,27 @@ func (s *Server) changePassword(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (s *Server) stats(w http.ResponseWriter, r *http.Request) {
+// getAnalytics reports visitors for the last ?days= (7–365) in the browser's
+// ?tz= time zone.
+func (s *Server) getAnalytics(w http.ResponseWriter, r *http.Request) {
+	days, _ := strconv.Atoi(r.URL.Query().Get("days"))
+	if days < 1 || days > 365 {
+		days = 30
+	}
+	tz, err := time.LoadLocation(r.URL.Query().Get("tz"))
+	if err != nil || r.URL.Query().Get("tz") == "" {
+		tz, _ = time.LoadLocation("Asia/Jakarta")
+	}
+	rep, err := s.stats.Report(r.Context(), days, tz)
+	if err != nil {
+		slog.Error("analytics", "err", err)
+		writeError(w, http.StatusInternalServerError, "The visitor numbers could not be loaded.")
+		return
+	}
+	writeJSON(w, http.StatusOK, rep)
+}
+
+func (s *Server) getStats(w http.ResponseWriter, r *http.Request) {
 	v, err := s.repo.Stats(r.Context())
 	respond(w, v, err)
 }

@@ -19,6 +19,7 @@ import (
 	"time"
 	_ "time/tzdata" // schedules use IANA zones even where the OS has none
 
+	"github.com/devileya/my-portfolio/internal/analytics"
 	"github.com/devileya/my-portfolio/internal/auth"
 	"github.com/devileya/my-portfolio/internal/config"
 	"github.com/devileya/my-portfolio/internal/content"
@@ -109,7 +110,7 @@ func run() error {
 	}
 	go jobsSvc.RunTelegram(ctx, true)
 
-	srv, err := server.New(cfg, repo, authSvc, store, jobsSvc, web.FS())
+	srv, err := server.New(cfg, repo, authSvc, store, jobsSvc, analytics.NewRepo(pool), web.FS())
 	if err != nil {
 		return err
 	}
