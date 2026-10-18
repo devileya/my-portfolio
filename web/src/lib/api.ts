@@ -132,6 +132,12 @@ function query(q: ListingQuery) {
   return s ? `?${s}` : '';
 }
 
+// Only the editable fields: timestamps and run times belong to the server.
+function searchBody(s: Omit<JobSearch, 'id'> & { id?: number }) {
+  const { id: _id, lastRunAt: _l, nextRunAt: _n, createdAt: _c, updatedAt: _u, ...body } = s;
+  return body;
+}
+
 export const jobsApi = {
   overview: () => get<JobsOverview>(`${J}/overview`),
   settings: () => get<JobSettings>(`${J}/settings`),
@@ -160,8 +166,8 @@ export const jobsApi = {
   check: (portal: Portal) => post<void>(`${J}/accounts/${portal}/check`),
 
   searches: () => get<JobSearch[]>(`${J}/searches`),
-  createSearch: (s: Omit<JobSearch, 'id'>) => post<JobSearch>(`${J}/searches`, s),
-  updateSearch: (s: JobSearch) => put<JobSearch>(`${J}/searches/${s.id}`, s),
+  createSearch: (s: Omit<JobSearch, 'id'>) => post<JobSearch>(`${J}/searches`, searchBody(s)),
+  updateSearch: (s: JobSearch) => put<JobSearch>(`${J}/searches/${s.id}`, searchBody(s)),
   deleteSearch: (id: number) => del<void>(`${J}/searches/${id}`),
   runSearch: (id: number) => post<{ queued: number }>(`${J}/searches/${id}/run`),
 

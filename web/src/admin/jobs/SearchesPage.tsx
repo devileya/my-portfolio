@@ -159,6 +159,8 @@ function SearchForm({ initial, isNew }: { initial: JobSearch; isNew: boolean }) 
     try {
       if (isNew) {
         const created = await jobsApi.createSearch(s);
+        // The editor stays mounted across the URL change: keep the saved copy (with its id).
+        setS(created);
         notify('Search created');
         navigate(`/jobs/searches/${created.id}`, { replace: true });
       } else {
