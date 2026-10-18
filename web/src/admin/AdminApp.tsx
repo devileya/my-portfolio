@@ -13,6 +13,14 @@ import ExperiencePage, { ExperienceEditor } from './ExperiencePage';
 import SkillsPage from './SkillsPage';
 import MessagesPage from './MessagesPage';
 import SettingsPage from './SettingsPage';
+import JobsOverview from './jobs/JobsOverview';
+import QueuePage from './jobs/QueuePage';
+import ListingPage from './jobs/ListingPage';
+import SearchesPage, { SearchEditor } from './jobs/SearchesPage';
+import AccountsPage from './jobs/AccountsPage';
+import AnswersPage from './jobs/AnswersPage';
+import { ActivityPage, ApplicationsPage } from './jobs/ActivityPages';
+import JobSettingsPage from './jobs/JobSettingsPage';
 
 type Boot = { state: 'loading' } | { state: 'signed-out'; notice?: string } | { state: 'in'; admin: Admin } | { state: 'error'; text: string };
 
@@ -81,6 +89,17 @@ const NAV = [
   { to: '/settings', label: 'Settings' },
 ];
 
+const JOBS_NAV = [
+  { to: '/jobs', label: 'Overview', end: true },
+  { to: '/jobs/queue', label: 'Review queue' },
+  { to: '/jobs/searches', label: 'Searches' },
+  { to: '/jobs/applications', label: 'Applications' },
+  { to: '/jobs/accounts', label: 'Accounts' },
+  { to: '/jobs/answers', label: 'Answer bank' },
+  { to: '/jobs/activity', label: 'Activity' },
+  { to: '/jobs/settings', label: 'Settings' },
+];
+
 function Shell() {
   const { admin, unread } = useSession();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -115,6 +134,12 @@ function Shell() {
               )}
             </NavLink>
           ))}
+          <span className="adm-nav-group">Job Hunter</span>
+          {JOBS_NAV.map((n) => (
+            <NavLink key={n.to} to={n.to} end={n.end}>
+              <span>{n.label}</span>
+            </NavLink>
+          ))}
           <a href="/" target="_blank" rel="noopener" className="adm-nav-out">
             View site ↗
           </a>
@@ -135,6 +160,17 @@ function Shell() {
           <Route path="/skills" element={<SkillsPage />} />
           <Route path="/messages" element={<MessagesPage />} />
           <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/jobs" element={<JobsOverview />} />
+          <Route path="/jobs/queue" element={<QueuePage />} />
+          <Route path="/jobs/listings/:id" element={<ListingPage />} />
+          <Route path="/jobs/searches" element={<SearchesPage />} />
+          <Route path="/jobs/searches/new" element={<SearchEditor />} />
+          <Route path="/jobs/searches/:id" element={<SearchEditor />} />
+          <Route path="/jobs/applications" element={<ApplicationsPage />} />
+          <Route path="/jobs/accounts" element={<AccountsPage />} />
+          <Route path="/jobs/answers" element={<AnswersPage />} />
+          <Route path="/jobs/activity" element={<ActivityPage />} />
+          <Route path="/jobs/settings" element={<JobSettingsPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>

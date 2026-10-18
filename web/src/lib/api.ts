@@ -9,6 +9,18 @@ import type {
   Stats,
   UploadedObject,
 } from './types';
+import type {
+  AIProvider,
+  Application,
+  JobAccount,
+  JobSearch,
+  JobSettings,
+  JobTask,
+  JobsOverview,
+  Listing,
+  Portal,
+  SavedAnswer,
+} from './jobs-types';
 
 export class ApiError extends Error {
   constructor(
@@ -98,4 +110,76 @@ export const adminApi = {
   messages: () => get<Message[]>('/api/admin/messages'),
   markMessage: (id: number, read: boolean) => patch<void>(`/api/admin/messages/${id}`, { read }),
   deleteMessage: (id: number) => del<void>(`/api/admin/messages/${id}`),
+};
+
+// ── job hunter ────────────────────────────────────────────────────────────────
+
+const J = '/api/admin/jobs';
+
+export interface ListingQuery {
+  status?: string;
+  portal?: string;
+  search?: number;
+  q?: string;
+  limit?: number;
+  offset?: number;
+}
+
+function query(q: ListingQuery) {
+  const p = new URLSearchParams();
+  for (const [k, v] of Object.entries(q)) if (v !== undefined && v !== '' && v !== 0) p.set(k, String(v));
+  const s = p.toString();
+  return s ? `?${s}` : '';
+}
+
+export const jobsApi = {
+  overview: () => get<JobsOverview>(`${J}/overview`),
+  settings: () => get<JobSettings>(`${J}/settings`),
+  saveSettings: (s: JobSettings) => put<JobSettings>(`${J}/settings`, s),
+  pause: (paused: boolean) => post<void>(`${J}/pause`, { paused }),
+  testTelegram: () => post<void>(`${J}/telegram/test`),
+  saveTelegramToken: (token: string) => put<JobSettings>(`${J}/telegram/token`, { token }),
+  telegramChats: () => get<{ id: number; name: string }[]>(`${J}/telegram/chats`),
+  saveTelegramChat: (chatId: number, chatName: string, poll: boolean) =>
+    put<JobSettings>(`${J}/telegram/chat`, { chatId, chatName, poll }),
+  clearTelegram: () => del<JobSettings>(`${J}/telegram`),
+
+  providers: () => get<AIProvider[]>(`${J}/providers`),
+  createProvider: (p: Partial<AIProvider>) => post<AIProvider>(`${J}/providers`, p),
+  updateProvider: (p: Partial<AIProvider> & { id: number }) => put<AIProvider>(`${J}/providers/${p.id}`, p),
+  deleteProvider: (id: number) => del<void>(`${J}/providers/${id}`),
+  testProvider: (id: number) => post<{ ok: boolean; ms: number }>(`${J}/providers/${id}/test`),
+  providerModels: (id: number) => get<string[]>(`${J}/providers/${id}/models`),
+
+  accounts: () => get<JobAccount[]>(`${J}/accounts`),
+  setAccountEnabled: (portal: Portal, enabled: boolean) => put<JobAccount[]>(`${J}/accounts/${portal}`, { enabled }),
+  importCookies: (portal: Portal, json: string) =>
+    request<JobAccount[]>('POST', `${J}/accounts/${portal}/cookies`, JSON.parse(json)),
+  clearCookies: (portal: Portal) => del<JobAccount[]>(`${J}/accounts/${portal}/cookies`),
+  login: (portal: Portal) => post<void>(`${J}/accounts/${portal}/login`),
+  check: (portal: Portal) => post<void>(`${J}/accounts/${portal}/check`),
+
+  searches: () => get<JobSearch[]>(`${J}/searches`),
+  createSearch: (s: Omit<JobSearch, 'id'>) => post<JobSearch>(`${J}/searches`, s),
+  updateSearch: (s: JobSearch) => put<JobSearch>(`${J}/searches/${s.id}`, s),
+  deleteSearch: (id: number) => del<void>(`${J}/searches/${id}`),
+  runSearch: (id: number) => post<{ queued: number }>(`${J}/searches/${id}/run`),
+
+  listings: (q: ListingQuery) => get<{ items: Listing[]; total: number }>(`${J}/listings${query(q)}`),
+  listing: (id: number) => get<{ listing: Listing; applications: Application[] }>(`${J}/listings/${id}`),
+  review: (id: number, approve: boolean) => post<Listing>(`${J}/listings/${id}/review`, { approve }),
+  bulkReview: (ids: number[], approve: boolean) => post<{ updated: number }>(`${J}/listings/review`, { ids, approve }),
+  answer: (id: number, answers: { question: string; answer: string }[]) =>
+    post<{ requeued: boolean }>(`${J}/listings/${id}/answers`, { answers }),
+  markApplied: (id: number) => post<{ listing: Listing; applications: Application[] }>(`${J}/listings/${id}/applied`),
+
+  applications: (status?: string) => get<Application[]>(`${J}/applications${status ? `?status=${status}` : ''}`),
+
+  answers: () => get<SavedAnswer[]>(`${J}/answers`),
+  createAnswer: (a: { question: string; answer: string }) => post<SavedAnswer>(`${J}/answers`, a),
+  updateAnswer: (a: SavedAnswer) => put<SavedAnswer>(`${J}/answers/${a.id}`, a),
+  deleteAnswer: (id: number) => del<void>(`${J}/answers/${id}`),
+
+  tasks: () => get<JobTask[]>(`${J}/tasks`),
+  cancelTask: (id: number) => del<void>(`${J}/tasks/${id}`),
 };

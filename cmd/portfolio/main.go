@@ -1,7 +1,8 @@
 // Command portfolio is the whole site in one binary: API, dashboard, media
 // proxy and the embedded React app.
 //
-//	portfolio            run the server
+//	portfolio            run the server (and, with JOBS_WORKER=embedded, the job worker)
+//	portfolio worker     run only the Job Hunter browser worker, e.g. on a home machine
 //	portfolio seed       load seed/data.json into an empty database
 package main
 
@@ -16,11 +17,14 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
+	_ "time/tzdata" // schedules use IANA zones even where the OS has none
 
 	"github.com/devileya/my-portfolio/internal/auth"
 	"github.com/devileya/my-portfolio/internal/config"
 	"github.com/devileya/my-portfolio/internal/content"
 	"github.com/devileya/my-portfolio/internal/db"
+	"github.com/devileya/my-portfolio/internal/jobs"
+	"github.com/devileya/my-portfolio/internal/secrets"
 	"github.com/devileya/my-portfolio/internal/seed"
 	"github.com/devileya/my-portfolio/internal/server"
 	"github.com/devileya/my-portfolio/internal/storage"
@@ -59,6 +63,29 @@ func run() error {
 		slog.Warn("object storage not configured; uploads and images are disabled")
 	}
 	repo := content.NewRepo(pool)
+	jobsSvc := &jobs.Service{
+		Repo:      jobs.NewRepo(pool, secrets.New(cfg.JobsSecretKey)),
+		Content:   repo,
+		Store:     store,
+		PublicURL: cfg.PublicURL,
+	}
+	if cfg.PublicURL != "" {
+		jobsSvc.AdminURL = cfg.PublicURL + cfg.AdminPath
+	}
+	worker := func() *jobs.Worker {
+		return jobs.NewWorker(jobsSvc, jobs.WorkerOptions{
+			Name: cfg.WorkerName, BrowserDir: cfg.BrowserDir, BrowserBin: cfg.BrowserBin, Headless: cfg.BrowserHeadless,
+		})
+	}
+	if cfg.JobsSecretKey == "" {
+		slog.Warn("JOBS_SECRET_KEY is not set; Job Hunter can't store API keys or portal sessions")
+	}
+
+	if len(os.Args) > 1 && os.Args[1] == "worker" {
+		go jobsSvc.RunTelegram(ctx, false) // notify only; the server polls
+		worker().Run(ctx)
+		return nil
+	}
 
 	if len(os.Args) > 1 && os.Args[1] == "seed" {
 		fs := flag.NewFlagSet("seed", flag.ExitOnError)
@@ -76,7 +103,13 @@ func run() error {
 		slog.Info("created admin account", "email", cfg.AdminEmail)
 	}
 
-	srv, err := server.New(cfg, repo, authSvc, store, web.FS())
+	go jobsSvc.RunScheduler(ctx)
+	if cfg.JobsWorker == "embedded" {
+		go worker().Run(ctx)
+	}
+	go jobsSvc.RunTelegram(ctx, true)
+
+	srv, err := server.New(cfg, repo, authSvc, store, jobsSvc, web.FS())
 	if err != nil {
 		return err
 	}

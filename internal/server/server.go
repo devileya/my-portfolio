@@ -23,6 +23,7 @@ import (
 	"github.com/devileya/my-portfolio/internal/auth"
 	"github.com/devileya/my-portfolio/internal/config"
 	"github.com/devileya/my-portfolio/internal/content"
+	"github.com/devileya/my-portfolio/internal/jobs"
 	"github.com/devileya/my-portfolio/internal/storage"
 )
 
@@ -31,6 +32,7 @@ type Server struct {
 	repo  *content.Repo
 	auth  *auth.Service
 	store *storage.Store
+	jobs  *jobs.Service
 	web   fs.FS
 	index []byte
 
@@ -38,13 +40,13 @@ type Server struct {
 	messageThrottle *auth.Throttle
 }
 
-func New(cfg config.Config, repo *content.Repo, authSvc *auth.Service, store *storage.Store, web fs.FS) (*Server, error) {
+func New(cfg config.Config, repo *content.Repo, authSvc *auth.Service, store *storage.Store, jobsSvc *jobs.Service, web fs.FS) (*Server, error) {
 	index, err := fs.ReadFile(web, "index.html")
 	if err != nil {
 		return nil, errors.New("web/dist/index.html missing: run `make web` before building the server")
 	}
 	return &Server{
-		cfg: cfg, repo: repo, auth: authSvc, store: store, web: web, index: index,
+		cfg: cfg, repo: repo, auth: authSvc, store: store, jobs: jobsSvc, web: web, index: index,
 		loginThrottle:   auth.NewThrottle(8, 15*time.Minute),
 		messageThrottle: auth.NewThrottle(5, 10*time.Minute),
 	}, nil

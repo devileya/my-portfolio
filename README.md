@@ -13,6 +13,11 @@ internal/auth         admin login: bcrypt, JWT in an httpOnly SameSite=Strict co
 internal/content      profile, projects, experience, skills, messages, counters
 internal/server       routes, handlers, SPA + admin-path injection
 internal/seed         first-run content loader (seed/data.json + seed/images)
+internal/jobs         Job Hunter: searches, scoring, review queue, apply worker
+internal/jobs/browser Chrome automation (go-rod): sessions, form reading/filling
+internal/ai           LLM client: Anthropic, or any OpenAI-compatible API
+internal/telegram     Telegram bot: notifications, buttons, replies
+internal/secrets      AES-GCM sealing for stored keys and cookies
 web/                  React + TypeScript (Vite); built into web/dist and embedded
 ```
 
@@ -37,6 +42,66 @@ and CV, manage projects/experience/skills (with ordering), read messages, and
 change the password. The admin account is created on first start from
 `ADMIN_EMAIL` / `ADMIN_PASSWORD`; after that the dashboard owns the password,
 and changing it signs out every other session.
+
+## Job Hunter
+
+The dashboard's **Job Hunter** section searches LinkedIn, Indeed, Glints and
+Kalibrr on a schedule, scores every new listing against the portfolio profile
+with an LLM, and applies to the ones you approve.
+
+1. **Search.** Each saved search has keywords, locations, remote/hybrid/on-site,
+   job types, seniority, exclusions and a cron schedule (in the Job Hunter time
+   zone). LinkedIn and Kalibrr are searched over their public endpoints; Glints
+   and Indeed through Chrome.
+2. **Score.** Hard filters run first (excluded words and companies, work mode,
+   age, external-only apply, the same job already seen on another portal, a
+   company applied to in the last 30 days). The rest get a 0–100 score with
+   reasons. At or above *review-queue score* a job waits in the queue; with
+   *auto-apply* on, at or above *auto-apply score* it is approved directly.
+3. **Apply.** The worker opens the job in Chrome with your session, reads each
+   form step, fills it from the profile, the answer bank and then the model,
+   attaches the CV, and advances. A required question it can't answer stops the
+   application and asks you (dashboard or Telegram reply); your answer is saved
+   and reused. Every attempt keeps a screenshot.
+
+Safety rails: **dry run is on by default** (forms are filled, Submit is never
+pressed); applications only go out inside the daily window, with a random gap
+per portal and per-portal and per-search daily caps; LinkedIn uses Easy Apply
+only. The worker never solves CAPTCHAs: when a portal shows a human check it
+pauses that portal and tells you, and you clear it once in the worker's Chrome
+window. Automated applying is against these portals' terms of service and can
+get an account restricted; keep the caps modest.
+
+**Setup**
+
+- Set `JOBS_SECRET_KEY` in `.env` (`openssl rand -hex 32`) and restart. It
+  encrypts the AI keys, bot token and portal sessions stored in the database;
+  every process sharing the database needs the same value, and changing it
+  makes the stored secrets unreadable (re-enter them).
+- *Job Hunter → Settings*: add an AI provider (Anthropic, OpenAI, Vikey,
+  OpenRouter, Gemini, DeepSeek or any OpenAI-compatible URL), pick it for
+  scoring and form filling, fill in the form facts (phone, expected salary…).
+- *Accounts*: **Sign in on worker** opens Chrome on the worker machine for you
+  to sign in (sessions are stored sealed; passwords never are), or paste
+  cookies exported with an extension such as Cookie-Editor.
+- Upload a CV under *CV*; forms attach it.
+- *Searches → New search*, then **Run now** or wait for the schedule.
+
+**Where the worker runs.** With `JOBS_WORKER=embedded` the server runs it and
+needs Chrome on the same machine. Otherwise run `portfolio worker` with the same
+`.env` on any machine that reaches the database and storage (a home connection
+looks least like a bot); set `JOBS_WORKER=off` on the server. The distroless
+Docker image has no Chrome, so use `JOBS_WORKER=off` there.
+
+**Telegram.** Connect it in *Job Hunter → Settings → Telegram bot*: paste the
+token from @BotFather, send the bot a message, press *Find my chat*. New matches arrive with ✅ Apply / ⏭ Skip buttons; questions
+arrive as ❓ messages (tap a choice or reply with the answer). Commands:
+`/status`, `/queue`, `/run`, `/pause`, `/resume`. A daily summary goes out at
+the configured hour.
+
+**Tests.** `go test ./...` runs the unit tests. The browser test drives the
+real form engine through a mock multi-step application in Chrome; point it at a
+disposable database: `PF_TEST_DATABASE_URL=postgres://… go test ./internal/jobs -run TestApplyFlow`.
 
 ## Running locally
 

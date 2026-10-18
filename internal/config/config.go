@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
@@ -39,6 +40,17 @@ type Config struct {
 	AdminPassword string
 	JWTSecret     string
 	SessionTTL    time.Duration
+
+	// JobsSecretKey seals stored API keys and portal cookies (AES-256-GCM).
+	// Every process that runs the job worker needs the same value.
+	JobsSecretKey string
+	// JobsWorker is "embedded" (the server also runs the browser worker),
+	// or "off" (run `portfolio worker` separately, e.g. on a home machine).
+	JobsWorker      string
+	WorkerName      string
+	BrowserDir      string
+	BrowserHeadless bool
+	BrowserBin      string
 }
 
 func (c Config) Production() bool { return c.Env == "production" }
@@ -69,6 +81,13 @@ func Load() (Config, error) {
 		AdminPassword: os.Getenv("ADMIN_PASSWORD"),
 		JWTSecret:     os.Getenv("JWT_SECRET"),
 		SessionTTL:    time.Duration(getInt("SESSION_TTL_HOURS", 72)) * time.Hour,
+
+		JobsSecretKey:   os.Getenv("JOBS_SECRET_KEY"),
+		JobsWorker:      get("JOBS_WORKER", "embedded"),
+		WorkerName:      get("JOBS_WORKER_NAME", hostname()),
+		BrowserDir:      get("JOBS_BROWSER_DIR", defaultBrowserDir()),
+		BrowserHeadless: get("JOBS_BROWSER_HEADLESS", "true") == "true",
+		BrowserBin:      os.Getenv("JOBS_BROWSER_BIN"),
 	}
 
 	var errs []error
@@ -83,7 +102,29 @@ func Load() (Config, error) {
 	if len(c.JWTSecret) < 32 {
 		errs = append(errs, errors.New("JWT_SECRET must be at least 32 characters"))
 	}
+	if c.JobsSecretKey != "" && len(c.JobsSecretKey) < 32 {
+		errs = append(errs, errors.New("JOBS_SECRET_KEY must be at least 32 characters"))
+	}
+	if c.JobsWorker != "embedded" && c.JobsWorker != "off" {
+		errs = append(errs, fmt.Errorf("JOBS_WORKER must be \"embedded\" or \"off\", not %q", c.JobsWorker))
+	}
 	return c, errors.Join(errs...)
+}
+
+func hostname() string {
+	h, _ := os.Hostname()
+	if h == "" {
+		return "worker"
+	}
+	return h
+}
+
+func defaultBrowserDir() string {
+	home, err := os.UserHomeDir()
+	if err != nil {
+		return ".portfolio-browser"
+	}
+	return filepath.Join(home, ".portfolio-jobs", "chrome")
 }
 
 func get(key, def string) string {

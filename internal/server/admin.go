@@ -64,6 +64,8 @@ func (s *Server) adminRoutes(r chi.Router) {
 	})
 	r.Patch("/messages/{id}", s.markMessage)
 	r.Delete("/messages/{id}", remove(s.repo.DeleteMessage))
+
+	r.Route("/jobs", s.jobRoutes)
 }
 
 // ── session ──────────────────────────────────────────────────────────────────
