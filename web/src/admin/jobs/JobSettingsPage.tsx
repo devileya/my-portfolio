@@ -14,21 +14,49 @@ const PRESETS: { name: string; kind: AIProvider['kind']; baseUrl: string; model:
   { name: 'Other (OpenAI-compatible)', kind: 'openai', baseUrl: '', model: '' },
 ];
 
-const APPLICANT_FIELDS: { key: string; label: string; placeholder?: string }[] = [
-  { key: 'phone', label: 'Phone', placeholder: '+62 812…' },
-  { key: 'city', label: 'City', placeholder: 'Jakarta' },
-  { key: 'country', label: 'Country', placeholder: 'Indonesia' },
-  { key: 'expectedSalary', label: 'Expected salary (monthly)', placeholder: 'IDR 35,000,000' },
-  { key: 'currentSalary', label: 'Current salary (monthly)' },
-  { key: 'noticePeriod', label: 'Notice period', placeholder: '1 month' },
-  { key: 'workAuthorization', label: 'Work authorization', placeholder: 'Indonesian citizen; needs sponsorship abroad' },
-  { key: 'willingToRelocate', label: 'Willing to relocate', placeholder: 'Yes, within Asia' },
-  { key: 'highestEducation', label: 'Highest education', placeholder: "Bachelor's in Computer Science" },
-  { key: 'languages', label: 'Languages', placeholder: 'Indonesian (native), English (professional)' },
-  { key: 'githubUrl', label: 'GitHub URL' },
-  { key: 'linkedinUrl', label: 'LinkedIn URL' },
-  { key: 'gender', label: 'Gender (only if forms require it)' },
-  { key: 'dateOfBirth', label: 'Date of birth (only if forms require it)' },
+type FactField = { key: string; label: string; placeholder?: string; hint?: string; options?: { value: string; label: string }[] };
+
+const FACT_GROUPS: { title: string; hint?: string; fields: FactField[] }[] = [
+  {
+    title: 'Contact & background',
+    fields: [
+      { key: 'phone', label: 'Phone', placeholder: 'e.g. +62 812 3456 7890' },
+      { key: 'city', label: 'City', placeholder: 'e.g. Jakarta' },
+      { key: 'country', label: 'Country', placeholder: 'e.g. Indonesia' },
+      { key: 'highestEducation', label: 'Highest education', placeholder: "e.g. Bachelor's in Computer Science" },
+      { key: 'languages', label: 'Languages', placeholder: 'e.g. Indonesian (native), English (professional)' },
+      { key: 'githubUrl', label: 'GitHub URL', placeholder: 'e.g. https://github.com/you' },
+      { key: 'linkedinUrl', label: 'LinkedIn URL', placeholder: 'e.g. https://www.linkedin.com/in/you/' },
+      { key: 'gender', label: 'Gender (only if a form requires it)', placeholder: 'e.g. Male' },
+      { key: 'dateOfBirth', label: 'Date of birth (only if a form requires it)', placeholder: 'e.g. 1996-05-10' },
+    ],
+  },
+  {
+    title: 'Salary',
+    hint: 'Used only when a form asks; never mentioned in cover letters. With no range on the posting, the search’s minimum monthly salary is used; with neither, the worker asks you.',
+    fields: [
+      {
+        key: 'salaryFromRange',
+        label: 'When the posting shows a salary range, ask for',
+        options: [
+          { value: '', label: 'The top of the range' },
+          { value: 'middle', label: 'The middle of the range' },
+          { value: 'bottom', label: 'The bottom of the range' },
+          { value: 'off', label: 'Don’t answer salary questions; always ask me' },
+        ],
+      },
+      { key: 'currentSalary', label: 'Current salary (monthly)', placeholder: 'e.g. IDR 28,000,000', hint: 'Empty = the worker asks you when a form wants it.' },
+    ],
+  },
+  {
+    title: 'Availability & eligibility',
+    fields: [
+      { key: 'noticePeriod', label: 'Notice period', placeholder: 'e.g. 1 month' },
+      { key: 'availableFrom', label: 'Available to start', placeholder: 'e.g. Immediately, or 2026-12-01' },
+      { key: 'workAuthorization', label: 'Work authorization', placeholder: 'e.g. Indonesian citizen; needs sponsorship abroad' },
+      { key: 'willingToRelocate', label: 'Willing to relocate', placeholder: 'e.g. Yes, within Asia' },
+    ],
+  },
 ];
 
 export default function JobSettingsPage() {
@@ -144,19 +172,42 @@ function SettingsForm({ initial, providers, onSaved }: { initial: JobSettings; p
 
       <Panel title="Facts for application forms">
         <p className="adm-hint">
-          Name, email, location, experience and skills come from your portfolio profile. Add what forms ask that the profile doesn’t say.
-          Leave anything you’d rather answer case by case empty.
+          Name, email, experience and skills come from your portfolio profile. Fill in what forms ask that the profile doesn’t say;
+          grey text is only an example. Leave a field empty to be asked case by case.
         </p>
+        {FACT_GROUPS.map((g) => (
+          <fieldset key={g.title} className="job-facts">
+            <legend>{g.title}</legend>
+            {g.hint && <p className="adm-hint">{g.hint}</p>}
+            <div className="adm-grid">
+              {g.fields.map((f) =>
+                f.options ? (
+                  <Field key={f.key} label={f.label} hint={f.hint}>
+                    {(id) => (
+                      <select id={id} value={s.applicant[f.key] ?? ''} onChange={(e) => set('applicant', { ...s.applicant, [f.key]: e.target.value })}>
+                        {f.options!.map((o) => (
+                          <option key={o.value} value={o.value}>
+                            {o.label}
+                          </option>
+                        ))}
+                      </select>
+                    )}
+                  </Field>
+                ) : (
+                  <TextField
+                    key={f.key}
+                    label={f.label}
+                    hint={f.hint}
+                    placeholder={f.placeholder}
+                    value={s.applicant[f.key] ?? ''}
+                    onChange={(v) => set('applicant', { ...s.applicant, [f.key]: v })}
+                  />
+                ),
+              )}
+            </div>
+          </fieldset>
+        ))}
         <div className="adm-grid">
-          {APPLICANT_FIELDS.map((f) => (
-            <TextField
-              key={f.key}
-              label={f.label}
-              placeholder={f.placeholder}
-              value={s.applicant[f.key] ?? ''}
-              onChange={(v) => set('applicant', { ...s.applicant, [f.key]: v })}
-            />
-          ))}
           <TextArea
             label="Cover letter guidance"
             value={s.coverLetterStyle}

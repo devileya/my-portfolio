@@ -204,11 +204,18 @@ function SearchForm({ initial, isNew }: { initial: JobSearch; isNew: boolean }) 
 
       <Panel title="What to look for">
         <div className="adm-grid">
-          <TextField label="Name" value={s.name} onChange={(v) => set('name', v)} placeholder="Senior Go / AI roles" required />
+          <TextField
+            label="Name"
+            value={s.name}
+            onChange={(v) => set('name', v)}
+            placeholder="e.g. Senior Go / AI roles"
+            hint="A label for you: shown in this list, Telegram alerts and the activity log. Keywords decide what is searched."
+            required
+          />
           <div className="adm-field adm-field--toggle">
             <Toggle label="Enabled" checked={s.enabled} onChange={(v) => set('enabled', v)} />
           </div>
-          <TagsField label="Keywords" value={s.keywords} onChange={(v) => set('keywords', v)} hint="Each keyword is its own query, e.g. Golang developer, Backend engineer, AI engineer." />
+          <TagsField label="Keywords" value={s.keywords} onChange={(v) => set('keywords', v)} hint="Each keyword is its own query, e.g. Golang developer, Backend engineer, AI engineer. Forms asking for your preferred role, work setup, location or job type are answered from this search." />
           <TagsField label="Locations" value={s.locations} onChange={(v) => set('locations', v)} hint="Cities or countries, e.g. Jakarta, Indonesia, Singapore. Remote jobs match any location." />
           <div className="adm-field--wide">
             <Chips legend="Work mode" options={WORK_MODES} value={s.workModes} onChange={(v) => set('workModes', v)} hint="None selected = any." />
@@ -236,7 +243,7 @@ function SearchForm({ initial, isNew }: { initial: JobSearch; isNew: boolean }) 
           <TagsField label="Exclude title keywords" value={s.excludeKeywords} onChange={(v) => set('excludeKeywords', v)} hint="e.g. PHP, Intern, Sales." />
           <TagsField label="Exclude companies" value={s.excludeCompanies} onChange={(v) => set('excludeCompanies', v)} />
           <TextField label="Posted within (days)" type="number" value={String(s.postedWithinDays)} onChange={(v) => set('postedWithinDays', num(v))} hint="0 = any time." />
-          <TextField label="Minimum monthly salary" type="number" value={String(s.minSalary)} onChange={(v) => set('minSalary', num(v))} hint="Told to the scorer; 0 = no minimum." />
+          <TextField label="Minimum monthly salary (IDR)" type="number" value={String(s.minSalary)} onChange={(v) => set('minSalary', num(v))} hint="In IDR. Told to the scorer, and given as your expected salary when a posting shows no range. 0 = none." />
           <div className="adm-field adm-field--toggle adm-field--wide">
             <Toggle label="Only jobs you can apply to on the portal (Easy Apply / Lamar)" checked={s.easyApplyOnly} onChange={(v) => set('easyApplyOnly', v)} />
           </div>

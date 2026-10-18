@@ -142,6 +142,10 @@ export interface Listing {
   workMode: string;
   jobType: string;
   salary: string;
+  salaryMin: number | null;
+  salaryMax: number | null;
+  salaryCurrency: string;
+  salaryPeriod: string;
   description?: string;
   easyApply: boolean | null;
   postedAt: string | null;

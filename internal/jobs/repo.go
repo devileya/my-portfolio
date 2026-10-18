@@ -355,7 +355,7 @@ func (r *Repo) SetNextRun(ctx context.Context, id int64, next *time.Time, ran bo
 // ── listings ─────────────────────────────────────────────────────────────────
 
 const listingCols = `l.id, l.portal, l.external_id, l.search_id, COALESCE(s.name, ''), l.url, l.title, l.company,
-	l.location, l.work_mode, l.job_type, l.salary, l.description, l.easy_apply, l.posted_at, l.score, l.score_reason,
+	l.location, l.work_mode, l.job_type, l.salary, l.salary_min, l.salary_max, l.salary_currency, l.salary_period, l.description, l.easy_apply, l.posted_at, l.score, l.score_reason,
 	l.score_details, l.status, l.status_note, l.attempts, l.approved_at, l.applied_at, l.found_at, l.updated_at`
 
 const listingFrom = ` FROM job_listings l LEFT JOIN job_searches s ON s.id = l.search_id`
@@ -363,7 +363,7 @@ const listingFrom = ` FROM job_listings l LEFT JOIN job_searches s ON s.id = l.s
 func scanListing(row pgx.Row) (Listing, error) {
 	var l Listing
 	err := row.Scan(&l.ID, &l.Portal, &l.ExternalID, &l.SearchID, &l.SearchName, &l.URL, &l.Title, &l.Company,
-		&l.Location, &l.WorkMode, &l.JobType, &l.Salary, &l.Description, &l.EasyApply, &l.PostedAt, &l.Score,
+		&l.Location, &l.WorkMode, &l.JobType, &l.Salary, &l.SalaryMin, &l.SalaryMax, &l.SalaryCurrency, &l.SalaryPeriod, &l.Description, &l.EasyApply, &l.PostedAt, &l.Score,
 		&l.ScoreReason, &l.ScoreDetails, &l.Status, &l.StatusNote, &l.Attempts, &l.ApprovedAt, &l.AppliedAt,
 		&l.FoundAt, &l.UpdatedAt)
 	return l, err
@@ -372,11 +372,14 @@ func scanListing(row pgx.Row) (Listing, error) {
 // InsertListing stores a listing seen for the first time. It returns false
 // (and leaves the row alone) when the portal's job was already known.
 func (r *Repo) InsertListing(ctx context.Context, l *Listing) (bool, error) {
+	l.fillSalary()
 	err := r.db.QueryRow(ctx, `INSERT INTO job_listings (portal, external_id, search_id, url, title, company, location,
-		work_mode, job_type, salary, description, easy_apply, posted_at, fingerprint)
-		VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)
+		work_mode, job_type, salary, salary_min, salary_max, salary_currency, salary_period,
+		description, easy_apply, posted_at, fingerprint)
+		VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18)
 		ON CONFLICT (portal, external_id) DO NOTHING RETURNING id, found_at`,
 		l.Portal, l.ExternalID, l.SearchID, l.URL, l.Title, l.Company, l.Location, l.WorkMode, l.JobType, l.Salary,
+		l.SalaryMin, l.SalaryMax, l.SalaryCurrency, l.SalaryPeriod,
 		l.Description, l.EasyApply, l.PostedAt, Fingerprint(l.Company, l.Title)).Scan(&l.ID, &l.FoundAt)
 	if errors.Is(err, pgx.ErrNoRows) {
 		return false, nil
@@ -386,9 +389,12 @@ func (r *Repo) InsertListing(ctx context.Context, l *Listing) (bool, error) {
 }
 
 func (r *Repo) UpdateListingDetails(ctx context.Context, l Listing) error {
+	l.fillSalary()
 	_, err := r.db.Exec(ctx, `UPDATE job_listings SET description=$2, easy_apply=$3, work_mode=$4, job_type=$5,
-		salary=$6, location=$7, updated_at=now() WHERE id=$1`,
-		l.ID, l.Description, l.EasyApply, l.WorkMode, l.JobType, l.Salary, l.Location)
+		salary=$6, location=$7, salary_min=$8, salary_max=$9, salary_currency=$10, salary_period=$11,
+		updated_at=now() WHERE id=$1`,
+		l.ID, l.Description, l.EasyApply, l.WorkMode, l.JobType, l.Salary, l.Location,
+		l.SalaryMin, l.SalaryMax, l.SalaryCurrency, l.SalaryPeriod)
 	return err
 }
 

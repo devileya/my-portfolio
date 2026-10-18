@@ -59,6 +59,7 @@ func (s *Service) apply(ctx context.Context, p *rod.Page, portal Portal, l Listi
 	if err != nil {
 		return s.failWith(p, res, err)
 	}
+	job := s.jobContext(ctx, l, app)
 
 	var lastSig string
 	repeats := 0
@@ -96,7 +97,7 @@ func (s *Service) apply(ctx context.Context, p *rod.Page, portal Portal, l Listi
 			return res
 		}
 
-		pending, answers, cover, err := s.answerStep(ctx, client, p, step, l, app, bank)
+		pending, answers, cover, err := s.answerStep(ctx, client, p, step, l, app, bank, job)
 		res.Answers = append(res.Answers, answers...)
 		if cover != "" {
 			res.Cover = cover
@@ -265,7 +266,11 @@ For each field, give the value to enter:
 - Use only facts from the profile, the facts list and the saved answers. Never invent certifications, licences, degrees, employers, legal or visa status, or personal data. If a required fact isn't there, return value "" with confidence "unknown".
 - Years of experience with a skill: estimate from the timeline and skills (count overlapping roles once), as a whole number.
 - Yes/No about a skill or tool clearly in the profile: "Yes". About something absent: "No" only when the field is a simple self-assessment; otherwise unknown.
-- Salary questions: use expectedSalary / currentSalary from the facts, digits only, in the currency the form implies. If absent, unknown.
+- Salary: answer only fields that ask about salary; never mention money in free text or cover letters.
+  - Expected/desired salary: use expectedSalaryForThisJob from <this_job> (convert to the period and currency the form asks for, e.g. monthly vs yearly); if it's absent, unknown.
+  - Current/last salary: only currentSalary from the facts; if absent, unknown.
+  - Digits only for number fields; for a range field (min/max) use the same figure in both unless the form needs a spread.
+- Preferred role / position / work setup (remote, hybrid, on-site) / location / job type / seniority: use the preferences in <this_job>; start date and notice period come from the facts.
 - select and radio: the value must be exactly one of the listed options.
 - checkbox: "Yes" or "No". Agree to terms/privacy/data-processing checkboxes ("Yes"); leave marketing opt-ins "No".
 - number: digits only. tel: the phone from the facts. email: the candidate's email.
@@ -278,7 +283,52 @@ Fields:
 // answerStep fills every field it can and returns the required questions it
 // could not answer. Saved answers are used directly; the rest go to the model
 // in one call per step.
-func (s *Service) answerStep(ctx context.Context, c ai.Client, p *rod.Page, step browser.Step, l Listing, app Applicant, bank map[string]SavedAnswer) ([]Question, []Answer, string, error) {
+// jobContext is what the form filler should know about this particular job:
+// the salary to ask for, and the preferences that apply.
+type jobContext struct {
+	salaryAsk string // "" when the posting shows no range
+	text      string
+}
+
+func (s *Service) jobContext(ctx context.Context, l Listing, app Applicant) jobContext {
+	jc := jobContext{salaryAsk: SalaryAsk(l, app.Facts["salaryFromRange"])}
+	var srch Search
+	if l.SearchID != nil {
+		srch, _ = s.Repo.Search(ctx, *l.SearchID)
+	}
+	// No range on the posting: fall back to the search's minimum salary.
+	if jc.salaryAsk == "" && srch.MinSalary > 0 && app.Facts["salaryFromRange"] != "off" {
+		jc.salaryAsk = fmt.Sprintf("IDR %s per month (the minimum set for this search; the posting shows no range)", formatMoney(srch.MinSalary))
+	}
+	join := func(vals []string, format func(string) string) string {
+		out := make([]string, len(vals))
+		for i, v := range vals {
+			out[i] = format(v)
+		}
+		return strings.Join(out, ", ")
+	}
+	same := func(v string) string { return v }
+	var b strings.Builder
+	if jc.salaryAsk != "" {
+		fmt.Fprintf(&b, "expectedSalaryForThisJob: %s\n", jc.salaryAsk)
+	}
+	// Preferences come from the saved search that found this job.
+	for _, kv := range [][2]string{
+		{"preferredRoles", join(srch.Keywords, same)},
+		{"preferredWorkMode", join(srch.WorkModes, func(v string) string { return strings.Replace(v, "onsite", "on-site", 1) })},
+		{"preferredLocations", join(srch.Locations, same)},
+		{"preferredJobType", join(srch.JobTypes, func(v string) string { return strings.ReplaceAll(v, "_", " ") })},
+		{"preferredSeniority", join(srch.Seniority, same)},
+	} {
+		if kv[1] != "" {
+			fmt.Fprintf(&b, "%s: %s\n", kv[0], kv[1])
+		}
+	}
+	jc.text = b.String()
+	return jc
+}
+
+func (s *Service) answerStep(ctx context.Context, c ai.Client, p *rod.Page, step browser.Step, l Listing, app Applicant, bank map[string]SavedAnswer, job jobContext) ([]Question, []Answer, string, error) {
 	var pending []Question
 	var answers []Answer
 	var ask []browser.Field
@@ -311,7 +361,11 @@ func (s *Service) answerStep(ctx context.Context, c ai.Client, p *rod.Page, step
 		if (f.Kind == "select" || f.Kind == "radio") && f.Value != "" {
 			continue
 		}
-		if a, ok := bank[QuestionKey(f.Label)]; ok && a.Answer != "" && fits(f, a.Answer) {
+		// A saved expected-salary answer must not override the posting's own range.
+		// "Always ask me" means no reuse either.
+		perJobSalary := (job.salaryAsk != "" || app.Facts["salaryFromRange"] == "off") &&
+			isSalaryQuestion(f.Label) && !isCurrentSalary(f.Label)
+		if a, ok := bank[QuestionKey(f.Label)]; ok && !perJobSalary && a.Answer != "" && fits(f, a.Answer) {
 			if err := browser.Fill(p, f, a.Answer); err == nil {
 				answers = append(answers, Answer{Question: f.Label, Answer: a.Answer, Source: "saved"})
 				usedKeys = append(usedKeys, a.Key)
@@ -334,8 +388,9 @@ func (s *Service) answerStep(ctx context.Context, c ai.Client, p *rod.Page, step
 		fmt.Fprintf(&saved, "Q: %s\nA: %s\n", a.Question, a.Answer)
 	}
 	fieldsJSON, _ := json.Marshal(ask)
-	user := fmt.Sprintf("<candidate>\n%s</candidate>\n\n<saved_answers>\n%s</saved_answers>\n\n<cover_letter_style>%s</cover_letter_style>\n\n<job>\nTitle: %s\nCompany: %s\nLocation: %s\n\n%s\n</job>\n\n<fields>\n%s\n</fields>",
-		app.Text, saved.String(), app.Settings.CoverLetterStyle, l.Title, l.Company, l.Location, Clip(l.Description, 6000), fieldsJSON)
+	user := fmt.Sprintf("<candidate>\n%s</candidate>\n\n<saved_answers>\n%s</saved_answers>\n\n<cover_letter_style>%s</cover_letter_style>\n\n<job>\nTitle: %s\nCompany: %s\nLocation: %s\nSalary: %s\n\n%s\n</job>\n\n<this_job>\n%s</this_job>\n\n<fields>\n%s\n</fields>",
+		app.Text, saved.String(), app.Settings.CoverLetterStyle, l.Title, l.Company, l.Location, orUnknown(l.Salary),
+		Clip(l.Description, 6000), job.text, fieldsJSON)
 
 	var reply struct {
 		Answers     []fieldAnswer `json:"answers"`
@@ -371,7 +426,8 @@ func (s *Service) answerStep(ctx context.Context, c ai.Client, p *rod.Page, step
 		}
 		answers = append(answers, Answer{Question: f.Label, Answer: val, Source: orLabel(a.Source, "inferred")})
 		// Remember short factual answers as suggestions to approve later.
-		if a.Source == "inferred" && f.Kind != "textarea" && len(val) <= 120 && f.Label != "" {
+		// Salary answers depend on the job, so they're never saved for reuse.
+		if a.Source == "inferred" && f.Kind != "textarea" && len(val) <= 120 && f.Label != "" && !isSalaryQuestion(f.Label) {
 			_, _ = s.Repo.SaveAnswer(ctx, SavedAnswer{Question: f.Label, Answer: val, Source: "ai", Approved: false})
 		}
 		browser.Pause(ctx, 400*time.Millisecond, 1200*time.Millisecond)

@@ -142,6 +142,8 @@ func (j glintsJob) listing() Listing {
 	if j.ShowSalary && len(j.Salaries) > 0 {
 		s := j.Salaries[0]
 		l.Salary = fmt.Sprintf("%s %s – %s / %s", s.Currency, money(s.Min), money(s.Max), strings.ToLower(s.Mode))
+		lo, hi := int64(s.Min), int64(s.Max)
+		l.SalaryMin, l.SalaryMax, l.SalaryCurrency, l.SalaryPeriod = &lo, &hi, s.Currency, normPeriod(s.Mode)
 	}
 	for _, ts := range []string{j.UpdatedAt, j.CreatedAt} {
 		if t, err := time.Parse(time.RFC3339Nano, ts); err == nil {

@@ -1,6 +1,7 @@
 package jobs
 
 import (
+	"context"
 	"strings"
 	"testing"
 	"time"
@@ -128,5 +129,67 @@ func TestLinkedInCardParsing(t *testing.T) {
 	}
 	if !strings.Contains(cleanHTML(first(liLocation, m[0][0])), "Jakarta") {
 		t.Error("location missing")
+	}
+}
+
+func TestParseSalary(t *testing.T) {
+	cases := []struct {
+		in               string
+		min, max         int64
+		currency, period string
+	}{
+		{"Rp 8.000.000 - Rp 12.000.000 per bulan", 8_000_000, 12_000_000, "IDR", "month"},
+		{"IDR 10.8M – 11.8M / month", 10_800_000, 11_800_000, "IDR", "month"},
+		{"$80,000.00/yr - $100,000.00/yr", 80_000, 100_000, "USD", "year"},
+		{"Rp 15 jt", 15_000_000, 15_000_000, "IDR", ""},
+		{"IDR 15,000,000.00/month - IDR 20,000,000.00/month", 15_000_000, 20_000_000, "IDR", "month"},
+	}
+	for _, c := range cases {
+		min, max, cur, period, ok := ParseSalary(c.in)
+		if !ok || min != c.min || max != c.max || cur != c.currency || period != c.period {
+			t.Errorf("ParseSalary(%q) = %d %d %q %q %v", c.in, min, max, cur, period, ok)
+		}
+	}
+	if _, _, _, _, ok := ParseSalary("Competitive"); ok {
+		t.Error("no figures means no range")
+	}
+}
+
+func TestSalaryAsk(t *testing.T) {
+	lo, hi := int64(10_000_000), int64(12_500_000)
+	l := Listing{SalaryMin: &lo, SalaryMax: &hi, SalaryCurrency: "IDR", SalaryPeriod: "month"}
+	if got := SalaryAsk(l, ""); !strings.HasPrefix(got, "IDR 12,500,000 per month") {
+		t.Errorf("top: %q", got)
+	}
+	if got := SalaryAsk(l, "middle"); !strings.HasPrefix(got, "IDR 11,300,000 per month") {
+		t.Errorf("middle: %q", got)
+	}
+	if SalaryAsk(l, "off") != "" || SalaryAsk(Listing{}, "") != "" {
+		t.Error("off, or no range, gives no per-job salary")
+	}
+}
+
+func TestSalaryQuestions(t *testing.T) {
+	if !isSalaryQuestion("Berapa gaji yang Anda harapkan?") || !isSalaryQuestion("Expected salary (IDR)") {
+		t.Error("salary questions not recognised")
+	}
+	if !isCurrentSalary("What is your current salary?") || isCurrentSalary("Expected salary") {
+		t.Error("current vs expected salary mixed up")
+	}
+	if isSalaryQuestion("Years of experience with Go") {
+		t.Error("not a salary question")
+	}
+}
+
+func TestJobContextSalary(t *testing.T) {
+	hi := int64(20_000_000)
+	s := &Service{}
+	app := Applicant{Facts: map[string]string{"salaryFromRange": "top"}}
+	jc := s.jobContext(context.Background(), Listing{SalaryMax: &hi, SalaryCurrency: "IDR", SalaryPeriod: "month"}, app)
+	if jc.salaryAsk == "" || !strings.Contains(jc.text, "expectedSalaryForThisJob: IDR 20,000,000 per month") {
+		t.Fatalf("job context:\n%s", jc.text)
+	}
+	if jc := s.jobContext(context.Background(), Listing{}, app); jc.salaryAsk != "" {
+		t.Fatalf("no range and no search minimum must leave salary to the user, got %q", jc.salaryAsk)
 	}
 }

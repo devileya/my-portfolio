@@ -64,8 +64,8 @@ type TelegramInfo struct {
 // Anything else the user adds is passed to the model as-is.
 var ApplicantFields = []string{
 	"firstName", "lastName", "phone", "city", "country", "linkedinUrl", "githubUrl", "portfolioUrl",
-	"currentSalary", "expectedSalary", "noticePeriod", "workAuthorization", "willingToRelocate",
-	"gender", "dateOfBirth", "highestEducation", "languages",
+	"currentSalary", "salaryFromRange", "noticePeriod", "availableFrom",
+	"workAuthorization", "willingToRelocate", "gender", "dateOfBirth", "highestEducation", "languages",
 }
 
 type Provider struct {
@@ -138,31 +138,36 @@ type ScoreDetails struct {
 }
 
 type Listing struct {
-	ID           int64        `json:"id"`
-	Portal       string       `json:"portal"`
-	ExternalID   string       `json:"externalId"`
-	SearchID     *int64       `json:"searchId"`
-	SearchName   string       `json:"searchName"`
-	URL          string       `json:"url"`
-	Title        string       `json:"title"`
-	Company      string       `json:"company"`
-	Location     string       `json:"location"`
-	WorkMode     string       `json:"workMode"`
-	JobType      string       `json:"jobType"`
-	Salary       string       `json:"salary"`
-	Description  string       `json:"description,omitempty"`
-	EasyApply    *bool        `json:"easyApply"`
-	PostedAt     *time.Time   `json:"postedAt"`
-	Score        *int         `json:"score"`
-	ScoreReason  string       `json:"scoreReason"`
-	ScoreDetails ScoreDetails `json:"scoreDetails"`
-	Status       string       `json:"status"`
-	StatusNote   string       `json:"statusNote"`
-	Attempts     int          `json:"attempts"`
-	ApprovedAt   *time.Time   `json:"approvedAt"`
-	AppliedAt    *time.Time   `json:"appliedAt"`
-	FoundAt      time.Time    `json:"foundAt"`
-	UpdatedAt    time.Time    `json:"updatedAt"`
+	ID         int64  `json:"id"`
+	Portal     string `json:"portal"`
+	ExternalID string `json:"externalId"`
+	SearchID   *int64 `json:"searchId"`
+	SearchName string `json:"searchName"`
+	URL        string `json:"url"`
+	Title      string `json:"title"`
+	Company    string `json:"company"`
+	Location   string `json:"location"`
+	WorkMode   string `json:"workMode"`
+	JobType    string `json:"jobType"`
+	Salary     string `json:"salary"`
+	// The posting's range as numbers, when it states one.
+	SalaryMin      *int64       `json:"salaryMin"`
+	SalaryMax      *int64       `json:"salaryMax"`
+	SalaryCurrency string       `json:"salaryCurrency"`
+	SalaryPeriod   string       `json:"salaryPeriod"`
+	Description    string       `json:"description,omitempty"`
+	EasyApply      *bool        `json:"easyApply"`
+	PostedAt       *time.Time   `json:"postedAt"`
+	Score          *int         `json:"score"`
+	ScoreReason    string       `json:"scoreReason"`
+	ScoreDetails   ScoreDetails `json:"scoreDetails"`
+	Status         string       `json:"status"`
+	StatusNote     string       `json:"statusNote"`
+	Attempts       int          `json:"attempts"`
+	ApprovedAt     *time.Time   `json:"approvedAt"`
+	AppliedAt      *time.Time   `json:"appliedAt"`
+	FoundAt        time.Time    `json:"foundAt"`
+	UpdatedAt      time.Time    `json:"updatedAt"`
 }
 
 // Listing statuses.

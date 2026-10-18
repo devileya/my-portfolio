@@ -127,6 +127,14 @@ func (j kalibrrJob) listing() Listing {
 	}
 	if j.BaseSalary > 0 || j.MaxSalary > 0 {
 		l.Salary = strings.TrimSpace(fmt.Sprintf("%s %s – %s %s", j.Currency, money(j.BaseSalary), money(j.MaxSalary), j.Interval))
+		lo, hi := int64(j.BaseSalary), int64(j.MaxSalary)
+		if lo <= 0 {
+			lo = hi
+		}
+		if hi <= 0 {
+			hi = lo
+		}
+		l.SalaryMin, l.SalaryMax, l.SalaryCurrency, l.SalaryPeriod = &lo, &hi, j.Currency, normPeriod(j.Interval)
 	}
 	if t, err := time.Parse(time.RFC3339Nano, j.Activation); err == nil {
 		l.PostedAt = &t
